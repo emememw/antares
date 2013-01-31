@@ -30,7 +30,7 @@ public class GdxGame implements ApplicationListener {
 		batch = new SpriteBatch();
 		
 		TextureManager.getInstance().init();
-		
+		//
 	}
 
 	@Override
