@@ -18,7 +18,6 @@ public class GdxGame implements ApplicationListener {
 	
 	@Override
 	public void create() {
-		//
 		int viewWidth = 800;
 		int viewHeight = 480;
 		
