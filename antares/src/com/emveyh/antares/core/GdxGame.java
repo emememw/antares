@@ -17,7 +17,8 @@ public class GdxGame implements ApplicationListener {
 	private SpriteBatch batch;
 	
 	@Override
-	public void create() {			
+	public void create() {
+		//
 		int viewWidth = 800;
 		int viewHeight = 480;
 		
