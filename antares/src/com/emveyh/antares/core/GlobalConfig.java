@@ -1,6 +1,7 @@
 package com.emveyh.antares.core;
 
 public class GlobalConfig {
+	/**/
 	private static final GlobalConfig INSTANCE = new GlobalConfig();
 	
 	public static GlobalConfig getInstance() {
