@@ -1,6 +1,6 @@
 package com.emveyh.antares.client;
 
-import com.emveyh.antares.GdxGame;
+import com.emveyh.antares.core.GdxGame;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;

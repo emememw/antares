@@ -1,8 +1,8 @@
 package com.emveyh.antares.map;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.emveyh.antares.Coord;
 import com.emveyh.antares.entity.Entity;
+import com.emveyh.antares.utils.Coord;
 
 public class Tile {
 

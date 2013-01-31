@@ -1,6 +1,6 @@
 package com.emveyh.antares.map;
 
-import com.emveyh.antares.TextureManager;
+import com.emveyh.antares.core.TextureManager;
 
 public class WallCorner extends Tile {
 

@@ -1,4 +1,4 @@
-package com.emveyh.antares;
+package com.emveyh.antares.utils;
 
 public class Coord {
 
