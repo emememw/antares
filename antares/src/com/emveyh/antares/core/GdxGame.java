@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.emveyh.antares.entity.Entity;
+import com.emveyh.antares.entity.EntityManager;
 import com.emveyh.antares.map.GameMap;
 import com.emveyh.antares.map.MapManager;
 
@@ -46,7 +47,8 @@ public class GdxGame implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
-		MapManager.getInstance().getCurrentGameMap().renderMap(batch);
+		MapManager.getInstance().getCurrentGameMap().render(batch);
+		EntityManager.getInstance().getPlayer().render(batch);
 		
 		batch.end();
 		
