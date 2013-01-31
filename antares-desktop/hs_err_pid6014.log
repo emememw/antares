@@ -1,0 +1,46 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGBUS (0x7) at pc=0x6f5bc416, pid=6014, tid=1785170752
+#
+# JRE version: 6.0_30-b12
+# Java VM: Java HotSpot(TM) Server VM (20.5-b03 mixed mode linux-x86 )
+# Problematic frame:
+# 
+[error occurred during error reporting (printing problematic frame), id 0x7]
+
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread is native thread
+
+siginfo:si_signo=SIGBUS: si_errno=0, si_code=2 (BUS_ADRERR), si_addr=0x6f5bc416
+
+Registers:
+EAX=0x00000000, EBX=0x6f5e3ff4, ECX=0x00000000, EDX=0x00000000
+ESP=0x6a6782b0, EBP=0x00000000, ESI=0x6a6782c8, EDI=0x6a6782c0
+EIP=0x6f5bc416, EFLAGS=0x00210217, CR2=0x6f5bc416
+
+Top of Stack: (sp=0x6a6782b0)
+0x6a6782b0:   6a6782c8 6a6782c0 00000000 00002000
+0x6a6782c0:   00000000 00000000 00000000 000f4240
+0x6a6782d0:   6f5e3ff4 00001200 6fa91ba8 6f5c9619
+0x6a6782e0:   00000001 6a699028 00002000 00000000
+0x6a6782f0:   00000000 00000000 00000000 00000000
+0x6a678300:   00000000 00000000 00000000 00000008
+0x6a678310:   6a67832c 6a678328 00002000 00006000
+0x6a678320:   00000000 00000000 6a699028 00002000 
+
+Instructions: (pc=0x6f5bc416)
+0x6f5bc3f6:   38 04 75 21 8b 44 24 10 8b 54 24 14 89 44 24 18
+0x6f5bc406:   89 54 24 1c 89 7c 24 04 89 34 24 e8 8e ff fd ff
+0x6f5bc416:   83 f8 ff 74 d5 83 c4 20 5b 5e 5f c3 8d b4 26 00
+0x6f5bc426:   00 00 00 8d bc 27 00 00 00 00 83 ec 2c 89 5c 24 
+
+Register to memory mapping:
+
+EAX=0x00000000 is an unknown value
+EBX=
