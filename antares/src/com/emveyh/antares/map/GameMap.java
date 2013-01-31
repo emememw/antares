@@ -6,6 +6,8 @@ import com.emveyh.antares.TextureManager;
 
 public class GameMap {
 
+	//test
+	
 	private Tile[][] tiles;
 	
 	public GameMap() {
