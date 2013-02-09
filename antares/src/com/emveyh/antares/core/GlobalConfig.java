@@ -9,10 +9,12 @@ public class GlobalConfig {
 	
 	private GlobalConfig() {}
 	
-	public static int FIXED_TILESIZE = 32;
+	public static int FIXED_TILESIZE = 64;
 	
 	private int viewWidth;
 	private int viewHeight;
+	
+	private GameState currentGameState;
 
 	public int getViewWidth() {
 		return viewWidth;
@@ -28,6 +30,14 @@ public class GlobalConfig {
 
 	public void setViewHeight(int viewHeight) {
 		this.viewHeight = viewHeight;
+	}
+
+	public GameState getCurrentGameState() {
+		return currentGameState;
+	}
+
+	public void setCurrentGameState(GameState currentGameState) {
+		this.currentGameState = currentGameState;
 	}
 	
 	

@@ -4,13 +4,9 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.emveyh.antares.entity.Entity;
 import com.emveyh.antares.entity.EntityManager;
-import com.emveyh.antares.map.GameMap;
-import com.emveyh.antares.map.MapManager;
+import com.emveyh.antares.input.InputManager;
 
 public class GdxGame implements ApplicationListener {
 	private OrthographicCamera camera;
@@ -26,6 +22,7 @@ public class GdxGame implements ApplicationListener {
 		
 		GlobalConfig.getInstance().setViewWidth(viewWidth);
 		GlobalConfig.getInstance().setViewHeight(viewHeight);
+		GlobalConfig.getInstance().setCurrentGameState(GameState.NORMAL);
 		
 		batch = new SpriteBatch();
 		
@@ -47,7 +44,6 @@ public class GdxGame implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
-		MapManager.getInstance().getCurrentGameMap().render(batch);
 		EntityManager.getInstance().getPlayer().render(batch);
 		
 		batch.end();
