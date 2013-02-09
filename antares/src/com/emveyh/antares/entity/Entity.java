@@ -10,7 +10,7 @@ import com.emveyh.antares.core.TextureManager;
 public class Entity extends Sprite {
 
 	private float speed;
-	
+
 	public Entity(TextureRegion texture, float x, float y, float speed) {
 		this.setRegion(texture);
 		this.setX(x);
@@ -22,17 +22,17 @@ public class Entity extends Sprite {
 	public void render(SpriteBatch batch) {
 		batch.draw(TextureManager.getInstance().getSprites()[2][0], this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
-	
+
 	public void moveX(boolean negative) {
-		this.moveX(negative ? speed*-1 : speed);
+		this.moveX(negative ? speed * -1 : speed);
 	}
-	
+
 	public void moveY(boolean negative) {
-		this.moveY(negative ? speed*-1 : speed);
+		this.moveY(negative ? speed * -1 : speed);
 	}
 
 	public void moveX(float velocity) {
-		this.setX(this.getX() + velocity - velocity*Gdx.graphics.getDeltaTime());
+		this.setX(this.getX() + velocity - velocity * Gdx.graphics.getDeltaTime());
 	}
 
 	public void moveY(float velocity) {
