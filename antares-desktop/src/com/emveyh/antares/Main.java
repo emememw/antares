@@ -7,6 +7,7 @@ import com.emveyh.antares.core.GdxGame;
 
 public class Main {
 	public static void main(String[] args) {
+		///test
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "antares";
 		cfg.useGL20 = true;
