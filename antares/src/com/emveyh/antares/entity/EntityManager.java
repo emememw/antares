@@ -25,6 +25,10 @@ public class EntityManager {
 		this.player = player;
 	}
 	
+	public void tick() { 
+		player.tick();
+	}
+	
 	
 	
 }

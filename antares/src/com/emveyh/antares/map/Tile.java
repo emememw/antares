@@ -6,7 +6,8 @@ import com.emveyh.antares.core.TextureManager;
 
 public enum Tile {
 
-	TEST(0,0,true);
+	FLOOR(0,0,true),
+	WALL(1,0,false);
 	
 	private int textureIndexX;
 	private int textureIndexY;

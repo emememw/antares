@@ -1,7 +1,11 @@
 package com.emveyh.antares.map;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.emveyh.antares.core.GlobalConfig;
+import com.emveyh.antares.utils.Coord;
 
 public class GameMap {
 
@@ -33,6 +37,18 @@ public class GameMap {
 				tiles[x][y].render(batch, x * GlobalConfig.FIXED_TILESIZE, y * GlobalConfig.FIXED_TILESIZE);
 			}
 		}
+	}
+	
+	public List<Coord> getNonAccessibleTiles() {
+		List<Coord> nonAccessibleTiles = new LinkedList<Coord>();
+		for(int x = 0; x < tiles.length; x++) {
+			for(int y = 0; y < tiles[x].length; y++) {
+				if(!tiles[x][y].isAccessible()) {
+					nonAccessibleTiles.add(new Coord(x,y));
+				}
+			}
+		}
+		return nonAccessibleTiles;
 	}
 
 }

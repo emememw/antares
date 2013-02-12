@@ -53,6 +53,7 @@ public class GdxGame implements ApplicationListener {
 		batch.end();
 		
 		InputManager.getInstance().tick();
+		EntityManager.getInstance().tick();
 		System.out.println(Gdx.graphics.getFramesPerSecond());
 	}
 

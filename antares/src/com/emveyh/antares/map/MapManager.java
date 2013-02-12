@@ -18,7 +18,11 @@ public class MapManager {
 		this.gameMap = new GameMap(13, 10);
 		for (int x = 0; x < this.gameMap.getWidth(); x++) {
 			for (int y = 0; y < this.gameMap.getHeight(); y++) {
-				this.gameMap.getTiles()[x][y] = Tile.TEST;
+				if(x == 5 && y == 5) {
+					this.gameMap.getTiles()[x][y] = Tile.WALL;
+				} else {
+					this.gameMap.getTiles()[x][y] = Tile.FLOOR;
+				}
 			}
 		}
 

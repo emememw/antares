@@ -1,11 +1,16 @@
 package com.emveyh.antares.entity;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.emveyh.antares.core.GlobalConfig;
 import com.emveyh.antares.core.TextureManager;
+import com.emveyh.antares.map.MapManager;
+import com.emveyh.antares.utils.Coord;
 
 public class Entity extends Sprite {
 
@@ -41,6 +46,21 @@ public class Entity extends Sprite {
 	
 	public String toString() {
 		return "position: [x="+this.getX()+"] [y="+this.getY()+"]";
+	}
+	
+	public void tick() {
+		System.out.println(isCollidingWithTile());
+	}
+	
+	private boolean isCollidingWithTile() {
+		boolean result = false;
+		List<Coord> nonAccessibleTiles = MapManager.getInstance().getGameMap().getNonAccessibleTiles();
+		for(Coord coord : nonAccessibleTiles) {
+			if(this.getBoundingRectangle().overlaps(new Rectangle(coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
+				result = true;
+			}
+		}
+		return result;
 	}
 
 }
