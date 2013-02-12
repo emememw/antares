@@ -38,5 +38,9 @@ public class Entity extends Sprite {
 	public void moveY(float velocity) {
 		this.setY(this.getY() + velocity - velocity * Gdx.graphics.getDeltaTime());
 	}
+	
+	public String toString() {
+		return "position: [x="+this.getX()+"] [y="+this.getY()+"]";
+	}
 
 }
