@@ -44,19 +44,30 @@ public class Entity extends Sprite {
 		this.setY(this.getY() + velocity - velocity * Gdx.graphics.getDeltaTime());
 	}
 	
+	//this should calculate the nextPosition so that we can check if the entity will collide *before* we move it
+	public boolean isValidPosition(float newX, float newY) {
+		
+		if(!isCollidingWithTile(newX, newY)) {
+			if(newX != this.getX()) {
+				movex
+			}
+		}
+		
+	}
+	
 	public String toString() {
 		return "position: [x="+this.getX()+"] [y="+this.getY()+"]";
 	}
 	
 	public void tick() {
-		System.out.println(isCollidingWithTile());
+		//System.out.println(isCollidingWithTile());
 	}
 	
-	private boolean isCollidingWithTile() {
+	private boolean isCollidingWithTile(float xToCheck, float yToCheck) {
 		boolean result = false;
 		List<Coord> nonAccessibleTiles = MapManager.getInstance().getGameMap().getNonAccessibleTiles();
 		for(Coord coord : nonAccessibleTiles) {
-			if(this.getBoundingRectangle().overlaps(new Rectangle(coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
+			if(new Rectangle(xToCheck, yToCheck, this.getWidth(), this.getHeight()).overlaps(new Rectangle(coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
 				result = true;
 			}
 		}
