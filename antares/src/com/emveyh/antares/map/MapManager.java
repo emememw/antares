@@ -20,7 +20,14 @@ public class MapManager {
 			for (int y = 0; y < this.gameMap.getHeight(); y++) {
 				if(x == 5 && y == 5) {
 					this.gameMap.getTiles()[x][y] = Tile.WALL;
-				} else {
+				} else if(x == 7 && y == 5) {
+					this.gameMap.getTiles()[x][y] = Tile.WALL;
+				} else if(x == 5 && y == 7) {
+					this.gameMap.getTiles()[x][y] = Tile.WALL;
+				} else if(x == 7 && y == 7) {
+					this.gameMap.getTiles()[x][y] = Tile.WALL;
+				} 
+				else {
 					this.gameMap.getTiles()[x][y] = Tile.FLOOR;
 				}
 			}
