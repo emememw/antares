@@ -37,7 +37,7 @@ public class Entity extends Sprite {
 	}
 
 	public void moveX(float velocity) {
-		float newX = this.getX() + velocity - velocity * Gdx.graphics.getDeltaTime();
+		float newX = this.getX() + velocity * Gdx.graphics.getDeltaTime();
 		float newY = this.getY();
 		if (isValidPosition(newX, newY)) {
 			this.setX(newX);
@@ -46,7 +46,7 @@ public class Entity extends Sprite {
 
 	public void moveY(float velocity) {
 		float newX = this.getX();
-		float newY = this.getY() + velocity - velocity * Gdx.graphics.getDeltaTime();
+		float newY = this.getY() + velocity * Gdx.graphics.getDeltaTime();
 		if (isValidPosition(newX, newY)) {
 			this.setY(newY);
 		}

@@ -15,7 +15,7 @@ public class MapManager {
 
 	public void loadTestMap() {
 
-		this.gameMap = new GameMap(13, 10);
+		this.gameMap = new GameMap(130, 100);
 		for (int x = 0; x < this.gameMap.getWidth(); x++) {
 			for (int y = 0; y < this.gameMap.getHeight(); y++) {
 				if(x == 5 && y == 5) {

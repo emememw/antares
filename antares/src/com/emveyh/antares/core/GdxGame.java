@@ -20,7 +20,6 @@ public class GdxGame implements ApplicationListener {
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, viewWidth, viewHeight);
-		
 		GlobalConfig.getInstance().setViewWidth(viewWidth);
 		GlobalConfig.getInstance().setViewHeight(viewHeight);
 		GlobalConfig.getInstance().setCurrentGameState(GameState.NORMAL);
@@ -39,7 +38,11 @@ public class GdxGame implements ApplicationListener {
 	}
 
 	@Override
-	public void render() {		
+	public void render() {
+		camera.position.x = EntityManager.getInstance().getPlayer().getX();
+		camera.position.y = EntityManager.getInstance().getPlayer().getY();
+		camera.update();
+		
 		Gdx.gl.glClearColor(0, 0,0,0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
@@ -55,6 +58,7 @@ public class GdxGame implements ApplicationListener {
 		InputManager.getInstance().tick();
 		EntityManager.getInstance().tick();
 		System.out.println(Gdx.graphics.getFramesPerSecond());
+		
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class EntityManager {
 	}
 	
 	private EntityManager() {
-		player = new Entity(TextureManager.getInstance().getSprites()[0][0], 0, 0, 3f);
+		player = new Entity(TextureManager.getInstance().getSprites()[0][0], 0, 0, 300f);
 		
 	}
 	
