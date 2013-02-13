@@ -71,7 +71,7 @@ public class Entity extends Sprite {
 		boolean result = false;
 		List<Coord> nonAccessibleTiles = MapManager.getInstance().getGameMap().getNonAccessibleTiles();
 		for (Coord coord : nonAccessibleTiles) {
-			if (new Rectangle(xToCheck+2, yToCheck+2, this.getWidth()-4, this.getHeight()-4).overlaps(new Rectangle(coord.getX() * GlobalConfig.FIXED_TILESIZE, coord
+			if (new Rectangle(xToCheck+4, yToCheck+4, this.getWidth()-8, this.getHeight()-8).overlaps(new Rectangle(coord.getX() * GlobalConfig.FIXED_TILESIZE, coord
 					.getY() * GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
 				result = true;
 			}
