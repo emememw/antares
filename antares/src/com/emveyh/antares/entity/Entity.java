@@ -37,22 +37,28 @@ public class Entity extends Sprite {
 	}
 
 	public void moveX(float velocity) {
-		this.setX(this.getX() + velocity - velocity * Gdx.graphics.getDeltaTime());
+		float newX = this.getX() + velocity - velocity * Gdx.graphics.getDeltaTime();
+		float newY = this.getY();
+		if(isValidPosition(newX, newY)) {
+			this.setX(newX);
+		}
 	}
 
 	public void moveY(float velocity) {
-		this.setY(this.getY() + velocity - velocity * Gdx.graphics.getDeltaTime());
+		float newX = this.getX();
+		float newY = this.getY() + velocity - velocity * Gdx.graphics.getDeltaTime();
+		if(isValidPosition(newX, newY)) {
+			this.setY(newY);
+		}
 	}
 	
 	//this should calculate the nextPosition so that we can check if the entity will collide *before* we move it
 	public boolean isValidPosition(float newX, float newY) {
-		
+		boolean result = false;
 		if(!isCollidingWithTile(newX, newY)) {
-			if(newX != this.getX()) {
-				movex
-			}
+			result = true;
 		}
-		
+		return result;
 	}
 	
 	public String toString() {
