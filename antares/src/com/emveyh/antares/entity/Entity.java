@@ -74,12 +74,24 @@ public class Entity extends Sprite {
 
 	private boolean isCollidingWithTile(float xToCheck, float yToCheck) {
 		boolean result = false;
-		List<Coord> surroundingTiles = getSurroundingTilePositions(xToCheck, yToCheck);
+
+		List<Coord> surroundingTiles = new LinkedList<Coord>();
+		surroundingTiles.addAll(getSurroundingTilePositions(xToCheck / GlobalConfig.FIXED_TILESIZE, yToCheck / GlobalConfig.FIXED_TILESIZE));
+		surroundingTiles
+				.addAll(getSurroundingTilePositions((xToCheck + this.getWidth()) / GlobalConfig.FIXED_TILESIZE, yToCheck / GlobalConfig.FIXED_TILESIZE));
+		surroundingTiles.addAll(getSurroundingTilePositions((xToCheck + this.getWidth()) / GlobalConfig.FIXED_TILESIZE, (yToCheck + this.getHeight())
+				/ GlobalConfig.FIXED_TILESIZE));
+		surroundingTiles.addAll(getSurroundingTilePositions(xToCheck, (yToCheck + this.getHeight()) / GlobalConfig.FIXED_TILESIZE));
+
 		for (Coord coord : surroundingTiles) {
-			if (!MapManager.getInstance().getGameMap().getTiles()[coord.getX()][coord.getY()].isAccessible()) {
-				if (new Rectangle(xToCheck + 4, yToCheck + 4, this.getWidth() - 8, this.getHeight() - 8).overlaps(new Rectangle(coord.getX()
-						* GlobalConfig.FIXED_TILESIZE, coord.getY() * GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
-					result = true;
+			if (coord.getX() >= 0 && coord.getY() >= 0 && coord.getX() < MapManager.getInstance().getGameMap().getWidth()
+					&& coord.getY() < MapManager.getInstance().getGameMap().getHeight()) {
+				if (!MapManager.getInstance().getGameMap().getTiles()[coord.getX()][coord.getY()].isAccessible()) {
+					if (new Rectangle(xToCheck + 4, yToCheck + 4, this.getWidth() - 8, this.getHeight() - 8)
+							.overlaps(new Rectangle(coord.getX() * GlobalConfig.FIXED_TILESIZE, coord.getY() * GlobalConfig.FIXED_TILESIZE,
+									GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
+						result = true;
+					}
 				}
 			}
 		}
@@ -90,9 +102,9 @@ public class Entity extends Sprite {
 
 		List<Coord> surroundingTilePositions = new ArrayList<Coord>();
 
-		int xPos = (int) (xToCheck + (this.getWidth() / 2)) / GlobalConfig.FIXED_TILESIZE;
-		int yPos = (int) (yToCheck + (this.getHeight() / 2)) / GlobalConfig.FIXED_TILESIZE;
-		
+		int xPos = (int) xToCheck;
+		int yPos = (int) yToCheck;
+
 		surroundingTilePositions.add(new Coord(xPos, yPos));
 
 		if (xPos + 1 < MapManager.getInstance().getGameMap().getWidth()) {

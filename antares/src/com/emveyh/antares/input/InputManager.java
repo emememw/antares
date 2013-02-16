@@ -33,6 +33,9 @@ public class InputManager {
 		}
 	}
 
+	/*
+	 * @TODO: I think that the InputManager should not handle the player movement
+	 */
 	private void checkPlayerMovement() {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			EntityManager.getInstance().getPlayer().moveX(true);
