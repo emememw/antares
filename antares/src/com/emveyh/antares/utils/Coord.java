@@ -28,4 +28,8 @@ public class Coord {
 		this.y = y;
 	}
 	
+	public String toString() {
+		return "Coord: [x="+this.getX()+"] [y="+this.getY()+"]";
+	}
+	
 }
