@@ -1,22 +1,25 @@
 package com.emveyh.antares.entity;
 
-import com.emveyh.antares.core.GlobalConfig;
 import com.emveyh.antares.core.TextureManager;
-import com.emveyh.antares.utils.Coord;
 
 public class EntityManager {
 
 	private static final EntityManager INSTANCE = new EntityManager();
+
 	public static EntityManager getInstance() {
 		return EntityManager.INSTANCE;
 	}
-	
+
 	private EntityManager() {
-		player = new Entity(TextureManager.getInstance().getSprites()[0][0], 0, 0, 300f);
-		
+		player = new Player(0, 0, 300f, new EntityAnimationTextures(TextureManager.getInstance().getSprites()[5][0],
+				TextureManager.getInstance().getSprites()[6][0], TextureManager.getInstance().getSprites()[7][0],
+				TextureManager.getInstance().getSprites()[8][0], TextureManager.getInstance().getSprites()[3][0],
+				TextureManager.getInstance().getSprites()[4][0]));
+
 	}
-	
+
 	private Entity player;
+
 	public Entity getPlayer() {
 		return player;
 	}
@@ -24,11 +27,9 @@ public class EntityManager {
 	public void setPlayer(Entity player) {
 		this.player = player;
 	}
-	
-	public void tick() { 
+
+	public void tick() {
 		player.tick();
 	}
-	
-	
-	
+
 }

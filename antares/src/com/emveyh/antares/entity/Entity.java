@@ -9,27 +9,39 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.PooledLinkedList;
 import com.emveyh.antares.core.GlobalConfig;
-import com.emveyh.antares.core.TextureManager;
 import com.emveyh.antares.map.MapManager;
 import com.emveyh.antares.utils.Coord;
+import com.emveyh.antares.utils.Direction;
 
 public class Entity extends Sprite {
 
 	private float speed;
+	private EntityAnimationTextures entityAnimationTextures;
+	private boolean walking;
+	private float walktime;
+	private Direction currentDirection;
+	private TextureRegion currentTexture;
 
-	public Entity(TextureRegion texture, float x, float y, float speed) {
-		this.setRegion(texture);
+	public Entity(float x, float y, float speed, EntityAnimationTextures entityAnimationTextures) {
+		this.setCurrentTexture(entityAnimationTextures.getTextureWalkDown1());
+		this.entityAnimationTextures = entityAnimationTextures;
 		this.setX(x);
 		this.setY(y);
 		this.setSize(GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE);
 		this.speed = speed;
 	}
 
+	public EntityAnimationTextures getEntityAnimationTextures() {
+		return entityAnimationTextures;
+	}
+
+	public void setEntityAnimationTextures(EntityAnimationTextures entityAnimationTextures) {
+		this.entityAnimationTextures = entityAnimationTextures;
+	}
+
 	public void render(SpriteBatch batch) {
-		batch.draw(TextureManager.getInstance().getSprites()[2][0], this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		batch.draw(this, this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
 
 	public void moveX(boolean negative) {
@@ -45,6 +57,12 @@ public class Entity extends Sprite {
 		float newY = this.getY();
 		if (isValidPosition(newX, newY)) {
 			this.setX(newX);
+			walking = true;
+			if(velocity > 0) {
+				this.currentDirection = Direction.RIGHT;
+			} else {
+				this.currentDirection = Direction.LEFT;
+			}
 		}
 	}
 
@@ -53,6 +71,12 @@ public class Entity extends Sprite {
 		float newY = this.getY() + velocity * Gdx.graphics.getDeltaTime();
 		if (isValidPosition(newX, newY)) {
 			this.setY(newY);
+			walking = true;
+			if(velocity > 0) {
+				this.currentDirection = Direction.UP;
+			} else {
+				this.currentDirection = Direction.DOWN;
+			}
 		}
 	}
 
@@ -70,6 +94,51 @@ public class Entity extends Sprite {
 	}
 
 	public void tick() {
+		walking = false;
+		Direction previousDirection = currentDirection;
+		tickLogic();
+		if(previousDirection != currentDirection) {
+			changeWalkingTexture();
+		}
+		if(walking) {
+			walktime += Gdx.graphics.getDeltaTime();
+			if(walktime > 0.2f) {
+				changeWalkingTexture();
+				walktime = 0;
+			}
+		} else {
+			walktime = 0;
+		}
+	}
+	
+	public void tickLogic() {
+		
+	}
+	
+	private void changeWalkingTexture() {
+		if(this.currentDirection == Direction.RIGHT || this.currentDirection == Direction.LEFT) {
+			if(this.currentTexture == this.entityAnimationTextures.getTextureWalkHorizontal1()) {
+				this.setCurrentTexture(this.entityAnimationTextures.getTextureWalkHorizontal2());
+			} else {
+				this.setCurrentTexture(this.entityAnimationTextures.getTextureWalkHorizontal1());
+			}
+			if(this.currentDirection == Direction.LEFT) {
+				this.flip(true, false);
+			}
+		}  else if(this.currentDirection == Direction.DOWN) {
+			if(this.currentTexture == this.entityAnimationTextures.getTextureWalkDown1()) {
+				this.setCurrentTexture(this.entityAnimationTextures.getTextureWalkDown2());
+			} else {
+				this.setCurrentTexture(this.entityAnimationTextures.getTextureWalkDown1());
+			}
+		} else if(this.currentDirection == Direction.UP) {
+			if(this.currentTexture == this.entityAnimationTextures.getTextureWalkUp1()) {
+				this.setCurrentTexture(this.entityAnimationTextures.getTextureWalkUp2());
+			} else {
+				this.setCurrentTexture(this.entityAnimationTextures.getTextureWalkUp1());
+			}
+		}
+		
 	}
 
 	private boolean isCollidingWithTile(float xToCheck, float yToCheck) {
@@ -127,6 +196,11 @@ public class Entity extends Sprite {
 		}
 
 		return surroundingTilePositions;
+	}
+	
+	public void setCurrentTexture(TextureRegion texture) {
+		this.currentTexture = texture;
+		this.setRegion(texture);
 	}
 
 }
