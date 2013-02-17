@@ -8,7 +8,7 @@ import com.emveyh.antares.entity.EntityManager;
 public class TestGameMap extends GameMap {
 
 	public TestGameMap() {
-		super(10, 10);
+		super(30, 30);
 		generate();
 	}
 	

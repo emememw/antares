@@ -20,7 +20,7 @@ public class Entity extends Sprite {
 	private EntityAnimationTextures entityAnimationTextures;
 	private boolean walking;
 	private float walktime;
-	private Direction currentDirection;
+	private Direction currentDirection = Direction.DOWN;
 	private TextureRegion currentTexture;
 
 	public Entity(float x, float y, float speed, EntityAnimationTextures entityAnimationTextures) {
@@ -58,11 +58,11 @@ public class Entity extends Sprite {
 		if (isValidPosition(newX, newY)) {
 			this.setX(newX);
 			walking = true;
-			if(velocity > 0) {
-				this.currentDirection = Direction.RIGHT;
-			} else {
-				this.currentDirection = Direction.LEFT;
-			}
+		}
+		if(velocity > 0) {
+			this.currentDirection = Direction.RIGHT;
+		} else {
+			this.currentDirection = Direction.LEFT;
 		}
 	}
 
@@ -72,11 +72,11 @@ public class Entity extends Sprite {
 		if (isValidPosition(newX, newY)) {
 			this.setY(newY);
 			walking = true;
-			if(velocity > 0) {
-				this.currentDirection = Direction.UP;
-			} else {
-				this.currentDirection = Direction.DOWN;
-			}
+		}
+		if(velocity > 0) {
+			this.currentDirection = Direction.UP;
+		} else {
+			this.currentDirection = Direction.DOWN;
 		}
 	}
 
@@ -164,6 +164,29 @@ public class Entity extends Sprite {
 				}
 			}
 		}
+		return result;
+	}
+	
+	protected Coord getTileNextToEntity() {
+		Coord result = new Coord(0,0);
+		int xPos = 0;
+		int yPos = 0;
+		if(this.currentDirection == Direction.RIGHT) {
+			xPos = (int) (this.getX()-4+(this.getWidth()))/GlobalConfig.FIXED_TILESIZE+1;
+			yPos = (int) (this.getY()+(this.getHeight()/2))/GlobalConfig.FIXED_TILESIZE;
+		} else if(this.currentDirection == Direction.LEFT) {
+			xPos = (int) (this.getX()+4)/GlobalConfig.FIXED_TILESIZE-1;
+			yPos = (int) (this.getY()+(this.getHeight()/2))/GlobalConfig.FIXED_TILESIZE;
+		} else if(this.currentDirection == Direction.UP) {
+			xPos = (int) (this.getX()+(this.getWidth()/2))/GlobalConfig.FIXED_TILESIZE;
+			yPos = (int) (this.getY()-4+this.getHeight())/GlobalConfig.FIXED_TILESIZE+1;
+		} else if(this.currentDirection == Direction.DOWN) {
+			xPos = (int) (this.getX()+(this.getWidth()/2))/GlobalConfig.FIXED_TILESIZE;
+			yPos = (int) (this.getY()+4)/GlobalConfig.FIXED_TILESIZE-1;
+		}
+		result.setX(xPos);
+		result.setY(yPos);
+		System.out.println(xPos+" "+yPos);
 		return result;
 	}
 
