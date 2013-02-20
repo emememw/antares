@@ -17,7 +17,7 @@ public class TestGameMap extends GameMap {
 		for(int x = 0; x < this.getWidth(); x++) {
 			for(int y = 0; y < this.getHeight(); y++) {
 				int chance = random.nextInt(100);
-				if(chance < 20) {
+				if(chance < 20 && x > 0 && y > 0 && x < this.getWidth()-1 && y < this.getHeight()-1) {
 					this.getTiles()[x][y] = Tile.WALL;
 				} else {
 					EntityManager.getInstance().getPlayer().setX(x*GlobalConfig.FIXED_TILESIZE);

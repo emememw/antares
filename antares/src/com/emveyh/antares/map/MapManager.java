@@ -49,16 +49,16 @@ public class MapManager {
 	}
 	
 	public void loadNextGameMap(Direction direction) {
-		if(direction == Direction.RIGHT) {
+		if(direction == Direction.RIGHT && currentWorldPosition.getX()+1 < world.length-1) {
 			currentWorldPosition.setX(currentWorldPosition.getX()+1);
 			EntityManager.getInstance().getPlayer().setX(0);
-		} else if(direction == Direction.LEFT) {
+		} else if(direction == Direction.LEFT && currentWorldPosition.getX()-1 >= 0) {
 			currentWorldPosition.setX(currentWorldPosition.getX()-1);
 			EntityManager.getInstance().getPlayer().setX((getCurrentMap().getWidth()-1)*GlobalConfig.FIXED_TILESIZE);
-		} else if(direction == Direction.UP) {
+		} else if(direction == Direction.UP && currentWorldPosition.getY()+1 < world[0].length-1) {
 			currentWorldPosition.setY(currentWorldPosition.getY()+1);
 			EntityManager.getInstance().getPlayer().setY(0);
-		} else if(direction == Direction.DOWN) {
+		} else if(direction == Direction.DOWN && currentWorldPosition.getY()-1 >= 0) {
 			currentWorldPosition.setY(currentWorldPosition.getY()-1);
 			EntityManager.getInstance().getPlayer().setY((getCurrentMap().getHeight()-1)*GlobalConfig.FIXED_TILESIZE);
 		}

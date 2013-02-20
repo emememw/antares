@@ -10,7 +10,6 @@ import com.emveyh.antares.input.InputManager;
 import com.emveyh.antares.map.MapManager;
 
 public class GdxGame implements ApplicationListener {
-	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	
 	@Override
@@ -18,16 +17,16 @@ public class GdxGame implements ApplicationListener {
 		int viewWidth = 800;
 		int viewHeight = 480;
 		
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, viewWidth, viewHeight);
+		TextureManager.getInstance().init();
+		
+		CameraManager.getInstance().initialize(viewWidth, viewHeight);
+		CameraManager.getInstance().setSpotlightEntity(EntityManager.getInstance().getPlayer());
 		GlobalConfig.getInstance().setViewWidth(viewWidth);
 		GlobalConfig.getInstance().setViewHeight(viewHeight);
 		GlobalConfig.getInstance().setCurrentGameState(GameState.NORMAL);
 		
 		batch = new SpriteBatch();
 		
-		TextureManager.getInstance().init();
-		//
 		MapManager.getInstance().loadTestWorld();
 	}
 
@@ -39,14 +38,12 @@ public class GdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		camera.position.x = EntityManager.getInstance().getPlayer().getX();
-		camera.position.y = EntityManager.getInstance().getPlayer().getY();
-		camera.update();
+		CameraManager.getInstance().tick();
 		
 		Gdx.gl.glClearColor(0, 0,0,0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		batch.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(CameraManager.getInstance().getCamera().combined);
 		batch.begin();
 		
 		MapManager.getInstance().getCurrentMap().render(batch);
