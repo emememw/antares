@@ -153,9 +153,9 @@ public class Entity extends Sprite {
 		surroundingTiles.addAll(getSurroundingTilePositions(xToCheck, (yToCheck + this.getHeight()) / GlobalConfig.FIXED_TILESIZE));
 
 		for (Coord coord : surroundingTiles) {
-			if (coord.getX() >= 0 && coord.getY() >= 0 && coord.getX() < MapManager.getInstance().getGameMap().getWidth()
-					&& coord.getY() < MapManager.getInstance().getGameMap().getHeight()) {
-				if (!MapManager.getInstance().getGameMap().getTiles()[coord.getX()][coord.getY()].isAccessible()) {
+			if (coord.getX() >= 0 && coord.getY() >= 0 && coord.getX() < MapManager.getInstance().getCurrentMap().getWidth()
+					&& coord.getY() < MapManager.getInstance().getCurrentMap().getHeight()) {
+				if (!MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()].isAccessible()) {
 					if (new Rectangle(xToCheck + 4, yToCheck + 4, this.getWidth() - 8, this.getHeight() - 8)
 							.overlaps(new Rectangle(coord.getX() * GlobalConfig.FIXED_TILESIZE, coord.getY() * GlobalConfig.FIXED_TILESIZE,
 									GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
@@ -199,13 +199,13 @@ public class Entity extends Sprite {
 
 		surroundingTilePositions.add(new Coord(xPos, yPos));
 
-		if (xPos + 1 < MapManager.getInstance().getGameMap().getWidth()) {
+		if (xPos + 1 < MapManager.getInstance().getCurrentMap().getWidth()) {
 			surroundingTilePositions.add(new Coord(xPos + 1, yPos));
 		}
-		if (xPos + 1 < MapManager.getInstance().getGameMap().getWidth() && yPos + 1 < MapManager.getInstance().getGameMap().getHeight()) {
+		if (xPos + 1 < MapManager.getInstance().getCurrentMap().getWidth() && yPos + 1 < MapManager.getInstance().getCurrentMap().getHeight()) {
 			surroundingTilePositions.add(new Coord(xPos + 1, yPos + 1));
 		}
-		if (yPos + 1 < MapManager.getInstance().getGameMap().getHeight()) {
+		if (yPos + 1 < MapManager.getInstance().getCurrentMap().getHeight()) {
 			surroundingTilePositions.add(new Coord(xPos, yPos + 1));
 		}
 		if (xPos - 1 >= 0) {

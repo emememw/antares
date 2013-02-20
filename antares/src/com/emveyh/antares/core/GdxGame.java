@@ -28,7 +28,7 @@ public class GdxGame implements ApplicationListener {
 		
 		TextureManager.getInstance().init();
 		//
-		MapManager.getInstance().loadTestMap();
+		MapManager.getInstance().loadTestWorld();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class GdxGame implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
-		MapManager.getInstance().getGameMap().render(batch);
+		MapManager.getInstance().getCurrentMap().render(batch);
 		EntityManager.getInstance().getPlayer().render(batch);
 		
 		
