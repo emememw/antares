@@ -11,11 +11,10 @@ public class EntityManager {
 	}
 
 	private EntityManager() {
-		player = new Player(0, 0, 300f, new EntityAnimationTextures(TextureManager.getInstance().getSprites()[5][0],
+		player = new Player(0, 0, 200f, new EntityAnimationTextures(TextureManager.getInstance().getSprites()[5][0],
 				TextureManager.getInstance().getSprites()[6][0], TextureManager.getInstance().getSprites()[7][0],
 				TextureManager.getInstance().getSprites()[8][0], TextureManager.getInstance().getSprites()[3][0],
 				TextureManager.getInstance().getSprites()[4][0]));
-
 	}
 
 	private Entity player;
