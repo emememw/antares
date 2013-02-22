@@ -12,10 +12,13 @@ public class GameMap {
 	private int width;
 	private int height;
 	private Tile[][] tiles;
+	
+	private WorldTileType worldTileType;
 
-	public GameMap(int width, int height) {
+	public GameMap(int width, int height, WorldTileType worldTileType) {
 		this.width = width;
 		this.height = height;
+		this.worldTileType = worldTileType;
 		tiles = new Tile[width][height];
 	}
 
@@ -50,5 +53,15 @@ public class GameMap {
 		}
 		return nonAccessibleTiles;
 	}
+
+	public WorldTileType getWorldTileType() {
+		return worldTileType;
+	}
+
+	public void setWorldTileType(WorldTileType worldTileType) {
+		this.worldTileType = worldTileType;
+	}
+	
+	
 
 }

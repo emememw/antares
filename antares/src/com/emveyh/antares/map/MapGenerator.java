@@ -9,27 +9,30 @@ import com.emveyh.antares.utils.Coord;
 public class MapGenerator {
 
 	public static void main(String[] args) {
-		new MapGenerator().worldAlgorithm();
+		new MapGenerator().generateWorld();
 	}
 
-	public void worldAlgorithm() {
+	public static GameMap[][] generateWorld() {
 		Random random = new Random();
 
 		int worldScale = 5;
-
 		int worldDimension = (int) Math.pow(2, worldScale) + 1;
+		
+		int mapScale = 4;
+		int mapDimension = (int) Math.pow(2, mapScale);
+		
 		System.out.println("dimension: " + worldDimension);
 
-		WorldTileType[][] world = new WorldTileType[worldDimension][worldDimension];
+		GameMap[][] world = new GameMap[worldDimension][worldDimension];
 		for (int x = 0; x < world.length; x++) {
 			for (int y = 0; y < world[x].length; y++) {
-				world[x][y] = WorldTileType.WATER;
+				world[x][y] = new GameMap(mapDimension, mapDimension, WorldTileType.WATER);
 			}
 		}
 
 		int middleX = (worldDimension) / 2;
 		int middleY = (worldDimension) / 2;
-		world[middleX][middleY] = WorldTileType.LAND;
+		world[middleX][middleY].setWorldTileType(WorldTileType.LAND);
 
 		System.out.println("middlex: " + middleX + " middley:" + middleY);
 
@@ -43,7 +46,7 @@ public class MapGenerator {
 
 				int currentChance = chance - chanceLossPerStep * step * lossScale;
 				if (random.nextInt(100) < currentChance) {
-					world[xpos][y] = WorldTileType.LAND;
+					world[xpos][y].setWorldTileType(WorldTileType.LAND);
 				}
 			}
 			step++;
@@ -56,7 +59,7 @@ public class MapGenerator {
 				int currentChance = chance - chanceLossPerStep * step * lossScale;
 				System.out.println(currentChance);
 				if (random.nextInt(100) < currentChance) {
-					world[xpos][y] = WorldTileType.LAND;
+					world[xpos][y].setWorldTileType(WorldTileType.LAND);
 				}
 			}
 			step++;
@@ -69,7 +72,7 @@ public class MapGenerator {
 
 				int currentChance = chance - chanceLossPerStep * step * lossScale;
 				if (random.nextInt(100) < currentChance) {
-					world[x][ypos] = WorldTileType.LAND;
+					world[x][ypos] .setWorldTileType(WorldTileType.LAND);
 				}
 			}
 			step++;
@@ -82,7 +85,7 @@ public class MapGenerator {
 
 				int currentChance = chance - chanceLossPerStep * step * lossScale;
 				if (random.nextInt(100) < currentChance) {
-					world[x][ypos] = WorldTileType.LAND;
+					world[x][ypos] .setWorldTileType(WorldTileType.LAND);
 				}
 			}
 			step++;
@@ -100,25 +103,25 @@ public class MapGenerator {
 					int waterNeighbours = 0;
 					List<Coord> neighbourTiles = getNeighbourTiles(world, x, y, false);
 					for (Coord coord : neighbourTiles) {
-						if (world[coord.getX()][coord.getY()] != WorldTileType.WATER) {
+						if (world[coord.getX()][coord.getY()].getWorldTileType() != WorldTileType.WATER) {
 							connectedLand++;
 						}
 					}
 					neighbourTiles = getNeighbourTiles(world, x, y, true);
 					for (Coord coord : neighbourTiles) {
-						if (world[coord.getX()][coord.getY()] == WorldTileType.WATER) {
+						if (world[coord.getX()][coord.getY()].getWorldTileType() == WorldTileType.WATER) {
 							waterNeighbours++;
 						}
 					}
 
 					if (connectedLand >= 5) {
-						world[x][y] = WorldTileType.LAND;
+						world[x][y].setWorldTileType(WorldTileType.LAND);
 					} else if (connectedLand == 0) {
-						world[x][y] = WorldTileType.WATER;
+						world[x][y].setWorldTileType(WorldTileType.WATER);
 					}
 
-					if (world[x][y] == WorldTileType.LAND && waterNeighbours > 0) {
-						world[x][y] = WorldTileType.BEACH;
+					if (world[x][y].getWorldTileType() == WorldTileType.LAND && waterNeighbours > 0) {
+						world[x][y].setWorldTileType(WorldTileType.BEACH);
 					}
 
 				}
@@ -126,10 +129,35 @@ public class MapGenerator {
 			smoothTime--;
 		}
 		printWorld(world);
-
+		
+		for(int x = 0; x < world.length; x++) {
+			for(int y = 0; y < world[x].length; y++) {
+				generateGameMapTiles(world[x][y]);
+			}
+		}
+		
+		return world;
+	}
+	
+	public static void generateGameMapTiles(GameMap gameMap) {
+		
+		for(int x = 0; x < gameMap.getWidth(); x++) {
+			for(int y = 0; y < gameMap.getHeight(); y++) {
+				if(gameMap.getWorldTileType() == WorldTileType.WATER) {
+					gameMap.getTiles()[x][y] = Tile.WATER;
+				} else if(gameMap.getWorldTileType() == WorldTileType.LAND) {
+					gameMap.getTiles()[x][y] = Tile.GRASS;
+				} else if(gameMap.getWorldTileType() == WorldTileType.BEACH) {
+					gameMap.getTiles()[x][y] = Tile.SAND;
+				} 
+					
+			}
+		}
+		
+		
 	}
 
-	private List<Coord> getNeighbourTiles(WorldTileType[][] world, int x, int y, boolean directNeighbours) {
+	public static  List<Coord> getNeighbourTiles(GameMap[][] world, int x, int y, boolean directNeighbours) {
 
 		List<Coord> result = new LinkedList<Coord>();
 
@@ -164,12 +192,12 @@ public class MapGenerator {
 		return result;
 	}
 
-	private void printWorld(WorldTileType[][] world) {
+	public static void printWorld(GameMap[][] world) {
 		System.out.println("====WORLD=====");
 		for (int y = 0; y < world[0].length; y++) {
 			for (int x = 0; x < world.length; x++) {
-				if (world[x][y].getId() > 0) {
-					System.out.print(" " + world[x][y].getId() + " ");
+				if (world[x][y].getWorldTileType() != WorldTileType.WATER) {
+					System.out.print(" " + world[x][y].getWorldTileType().getId() + " ");
 				} else {
 					System.out.print("   ");
 				}

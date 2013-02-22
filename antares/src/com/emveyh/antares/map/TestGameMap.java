@@ -8,7 +8,7 @@ import com.emveyh.antares.entity.EntityManager;
 public class TestGameMap extends GameMap {
 
 	public TestGameMap() {
-		super(30, 30);
+		super(30, 30, WorldTileType.LAND);
 		generate();
 	}
 	
@@ -18,11 +18,11 @@ public class TestGameMap extends GameMap {
 			for(int y = 0; y < this.getHeight(); y++) {
 				int chance = random.nextInt(100);
 				if(chance < 20 && x > 0 && y > 0 && x < this.getWidth()-1 && y < this.getHeight()-1) {
-					this.getTiles()[x][y] = Tile.WALL;
+					//this.getTiles()[x][y] = Tile.WALL;
 				} else {
 					EntityManager.getInstance().getPlayer().setX(x*GlobalConfig.FIXED_TILESIZE);
 					EntityManager.getInstance().getPlayer().setY(y*GlobalConfig.FIXED_TILESIZE);
-					this.getTiles()[x][y] = Tile.FLOOR;
+					//this.getTiles()[x][y] = Tile.FLOOR;
 				}
 			}
 		}

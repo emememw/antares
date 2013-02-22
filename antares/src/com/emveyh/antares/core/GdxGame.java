@@ -3,11 +3,11 @@ package com.emveyh.antares.core;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.emveyh.antares.entity.EntityManager;
 import com.emveyh.antares.input.InputManager;
 import com.emveyh.antares.map.MapManager;
+import com.emveyh.antares.ui.UIManager;
 
 public class GdxGame implements ApplicationListener {
 	private SpriteBatch batch;
@@ -27,7 +27,7 @@ public class GdxGame implements ApplicationListener {
 		
 		batch = new SpriteBatch();
 		
-		MapManager.getInstance().loadTestWorld();
+		MapManager.getInstance().loadWorld();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class GdxGame implements ApplicationListener {
 		
 		MapManager.getInstance().getCurrentMap().render(batch);
 		EntityManager.getInstance().getPlayer().render(batch);
-		
+		UIManager.getInstance().render(batch);
 		
 		batch.end();
 		

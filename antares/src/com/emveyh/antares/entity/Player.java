@@ -32,13 +32,13 @@ public class Player extends Entity {
 		if (Gdx.input.isKeyPressed(Keys.X)) {
 			if (actionEventReady) {
 				Coord coord = this.getTileNextToEntity();
-				if (MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] == Tile.FLOOR) {
+				/*if (MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] == Tile.FLOOR) {
 					MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.WALL;
 				} else {
 					MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.FLOOR;
 				}
 				coord = new Coord((int) this.getX() / GlobalConfig.FIXED_TILESIZE, (int) this.getY() / GlobalConfig.FIXED_TILESIZE);
-				MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.FLOOR;
+				MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.FLOOR;*/
 				actionEventReady = false;
 			}
 		} else {

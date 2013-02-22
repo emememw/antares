@@ -19,16 +19,16 @@ public class MapManager {
 	private GameMap[][] world;
 	private Coord currentWorldPosition;
 	
-	public void loadTestWorld() {
-		int testWorldWidth = 3;
-		int testWorldHeight = 3;
-		this.world = new GameMap[testWorldWidth][testWorldHeight];
-		for(int x = 0; x < testWorldWidth; x++) {
-			for(int y = 0; y < testWorldHeight; y++) {
-				world[x][y] = new TestGameMap();
+	public void loadWorld() {
+		this.world = MapGenerator.generateWorld();
+		outer: for(int x = 0; x < world.length; x++) {
+			for(int y = 0; y < world[x].length; y++) {
+				if(world[x][y].getWorldTileType() == WorldTileType.LAND) {
+					currentWorldPosition = new Coord(x,y);
+					break outer;
+				}
 			}
 		}
-		this.currentWorldPosition = new Coord(0,0);
 	}
 
 
