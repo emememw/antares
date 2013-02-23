@@ -17,10 +17,10 @@ public class MapGenerator {
 
 		int worldScale = 5;
 		int worldDimension = (int) Math.pow(2, worldScale) + 1;
-		
+
 		int mapScale = 4;
 		int mapDimension = (int) Math.pow(2, mapScale);
-		
+
 		System.out.println("dimension: " + worldDimension);
 
 		GameMap[][] world = new GameMap[worldDimension][worldDimension];
@@ -72,7 +72,7 @@ public class MapGenerator {
 
 				int currentChance = chance - chanceLossPerStep * step * lossScale;
 				if (random.nextInt(100) < currentChance) {
-					world[x][ypos] .setWorldTileType(WorldTileType.LAND);
+					world[x][ypos].setWorldTileType(WorldTileType.LAND);
 				}
 			}
 			step++;
@@ -85,7 +85,7 @@ public class MapGenerator {
 
 				int currentChance = chance - chanceLossPerStep * step * lossScale;
 				if (random.nextInt(100) < currentChance) {
-					world[x][ypos] .setWorldTileType(WorldTileType.LAND);
+					world[x][ypos].setWorldTileType(WorldTileType.LAND);
 				}
 			}
 			step++;
@@ -129,35 +129,70 @@ public class MapGenerator {
 			smoothTime--;
 		}
 		printWorld(world);
-		
-		for(int x = 0; x < world.length; x++) {
-			for(int y = 0; y < world[x].length; y++) {
-				generateGameMapTiles(world[x][y]);
+
+		for (int x = 0; x < world.length; x++) {
+			for (int y = 0; y < world[x].length; y++) {
+				generateGameMapTiles(world[x][y], world, x, y);
 			}
 		}
-		
+
 		return world;
 	}
-	
-	public static void generateGameMapTiles(GameMap gameMap) {
-		
-		for(int x = 0; x < gameMap.getWidth(); x++) {
-			for(int y = 0; y < gameMap.getHeight(); y++) {
-				if(gameMap.getWorldTileType() == WorldTileType.WATER) {
+
+	public static void generateGameMapTiles(GameMap gameMap, GameMap[][] world, int worldX, int worldY) {
+		Random random = new Random();
+		for (int x = 0; x < gameMap.getWidth(); x++) {
+			for (int y = 0; y < gameMap.getHeight(); y++) {
+
+				if (gameMap.getWorldTileType() == WorldTileType.WATER) {
 					gameMap.getTiles()[x][y] = Tile.WATER;
-				} else if(gameMap.getWorldTileType() == WorldTileType.LAND) {
+				} else if (gameMap.getWorldTileType() == WorldTileType.LAND) {
 					gameMap.getTiles()[x][y] = Tile.GRASS;
-				} else if(gameMap.getWorldTileType() == WorldTileType.BEACH) {
-					gameMap.getTiles()[x][y] = Tile.SAND;
-				} 
-					
+				} else if (gameMap.getWorldTileType() == WorldTileType.BEACH) {
+					gameMap.getTiles()[x][y] = Tile.GRASS;
+					// left border
+					if (x < 8 && worldX > 0 && world[worldX - 1][worldY].getWorldTileType() == WorldTileType.WATER) {
+
+						if (x < 2) {
+							gameMap.getTiles()[x][y] = Tile.WATER;
+						} else if (x > 5 && random.nextInt(100) < 60) {
+							gameMap.getTiles()[x][y] = Tile.GRASS;
+						} else {
+							gameMap.getTiles()[x][y] = Tile.SAND;
+						}
+					}
+					// right border
+					if (x > gameMap.getWidth() - 8 && worldX < world.length - 1 && world[worldX + 1][worldY].getWorldTileType() == WorldTileType.WATER) {
+						if (x > gameMap.getWidth() - 3) {
+							gameMap.getTiles()[x][y] = Tile.WATER;
+						} else if (x > gameMap.getWidth() - 6) {
+							gameMap.getTiles()[x][y] = Tile.SAND;
+						} else if (random.nextInt(100) < 60) {
+							gameMap.getTiles()[x][y] = Tile.GRASS;
+						} else {
+							gameMap.getTiles()[x][y] = Tile.SAND;
+						}
+					}
+					// down
+					/*if (x > 1 && y < 8 && worldY > 0 && world[worldX][worldY-1].getWorldTileType() == WorldTileType.WATER) {
+						
+						if (y < 2) {
+							gameMap.getTiles()[x][y] = Tile.WATER;
+						} else if (y > 5 && random.nextInt(100) < 60) {
+							gameMap.getTiles()[x][y] = Tile.GRASS;
+						} else {
+							gameMap.getTiles()[x][y] = Tile.SAND;
+						}
+					}*/
+
+				}
+
 			}
 		}
-		
-		
+
 	}
 
-	public static  List<Coord> getNeighbourTiles(GameMap[][] world, int x, int y, boolean directNeighbours) {
+	public static List<Coord> getNeighbourTiles(GameMap[][] world, int x, int y, boolean directNeighbours) {
 
 		List<Coord> result = new LinkedList<Coord>();
 
