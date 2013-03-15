@@ -150,40 +150,37 @@ public class MapGenerator {
 					gameMap.getTiles()[x][y] = Tile.GRASS;
 				} else if (gameMap.getWorldTileType() == WorldTileType.BEACH) {
 					gameMap.getTiles()[x][y] = Tile.GRASS;
-					// left border
-					if (x < 8 && worldX > 0 && world[worldX - 1][worldY].getWorldTileType() == WorldTileType.WATER) {
-
-						if (x < 2) {
-							gameMap.getTiles()[x][y] = Tile.WATER;
-						} else if (x > 5 && random.nextInt(100) < 60) {
-							gameMap.getTiles()[x][y] = Tile.GRASS;
-						} else {
+					//insert beach logic ;)
+					
+					
+					//first sand
+					//left
+					if(worldX > 0 && world[worldX-1][worldY].getWorldTileType() == WorldTileType.WATER) {
+						if(x < 4) {
 							gameMap.getTiles()[x][y] = Tile.SAND;
 						}
 					}
-					// right border
-					if (x > gameMap.getWidth() - 8 && worldX < world.length - 1 && world[worldX + 1][worldY].getWorldTileType() == WorldTileType.WATER) {
-						if (x > gameMap.getWidth() - 3) {
-							gameMap.getTiles()[x][y] = Tile.WATER;
-						} else if (x > gameMap.getWidth() - 6) {
-							gameMap.getTiles()[x][y] = Tile.SAND;
-						} else if (random.nextInt(100) < 60) {
-							gameMap.getTiles()[x][y] = Tile.GRASS;
-						} else {
+					//bottom
+					if(worldY > 0 && world[worldX][worldY-1].getWorldTileType() == WorldTileType.WATER) {
+						if(y < 4) {
 							gameMap.getTiles()[x][y] = Tile.SAND;
 						}
 					}
-					// down
-					/*if (x > 1 && y < 8 && worldY > 0 && world[worldX][worldY-1].getWorldTileType() == WorldTileType.WATER) {
-						
-						if (y < 2) {
+					
+					
+					//then water
+					//left
+					if(worldX > 0 && world[worldX-1][worldY].getWorldTileType() == WorldTileType.WATER) {
+						if(x < 2) {
 							gameMap.getTiles()[x][y] = Tile.WATER;
-						} else if (y > 5 && random.nextInt(100) < 60) {
-							gameMap.getTiles()[x][y] = Tile.GRASS;
-						} else {
-							gameMap.getTiles()[x][y] = Tile.SAND;
 						}
-					}*/
+					}
+					//bottom
+					if(worldY > 0 && world[worldX][worldY-1].getWorldTileType() == WorldTileType.WATER) {
+						if(y < 2) {
+							gameMap.getTiles()[x][y] = Tile.WATER;
+						}
+					}
 
 				}
 
