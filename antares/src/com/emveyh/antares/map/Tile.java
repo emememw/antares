@@ -22,6 +22,11 @@ public enum Tile {
 		this.accessible = accessible;
 	}
 
+	/*
+	 ▲
+	▲ ▲
+	*/
+	
 	public boolean isAccessible() {
 		return accessible;
 	}
