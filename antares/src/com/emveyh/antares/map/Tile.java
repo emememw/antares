@@ -8,13 +8,14 @@ public enum Tile {
 
 	GRASS(1,0,true),
 	WATER(0,0,true),
-	SAND(2,0,true),
+	SAND(4,0,true),
 	STONE(3,0, false),
-	WOODEN_FLOOR(4,0,true);
+	WOODEN_FLOOR(2,0,true);
 	
 	private int textureIndexX;
 	private int textureIndexY;
 	private boolean accessible;
+	
 	
 	private Tile(int textureIndexX, int textureIndexY, boolean accessible) {
 		this.textureIndexX = textureIndexX;
