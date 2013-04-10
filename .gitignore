@@ -1,2 +1,3 @@
-antares-desktop/assets/*
-antares-desktop/*.log
+antares-desktop/bin/*
+*.class
+*.log
