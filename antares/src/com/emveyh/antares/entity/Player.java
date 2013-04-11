@@ -57,33 +57,10 @@ public class Player extends Entity {
 			actionEventReady2 = true;
 		}
 
-		if (shouldLoadNextMap()) {
-			MapManager.getInstance().loadNextGameMap(getNextMapDirection());
-		}
+		
 
 	}
 
-	private boolean shouldLoadNextMap() {
-		boolean result = false;
-		if (this.getX() + this.getWidth() > MapManager.getInstance().getCurrentMap().getWidth() * GlobalConfig.FIXED_TILESIZE || this.getX() < 0
-				|| this.getY() + this.getHeight() > MapManager.getInstance().getCurrentMap().getHeight() * GlobalConfig.FIXED_TILESIZE || this.getY() < 0) {
-			result = true;
-		}
-		return result;
-	}
 
-	private Direction getNextMapDirection() {
-		Direction result = null;
-		if (this.getX() + this.getWidth() > MapManager.getInstance().getCurrentMap().getWidth() * GlobalConfig.FIXED_TILESIZE) {
-			result = Direction.RIGHT;
-		} else if (this.getX() < 0) {
-			result = Direction.LEFT;
-		} else if (this.getY() > MapManager.getInstance().getCurrentMap().getHeight()) {
-			result = Direction.UP;
-		} else if (this.getY() < 0) {
-			result = Direction.DOWN;
-		}
-		return result;
-	}
 
 }
