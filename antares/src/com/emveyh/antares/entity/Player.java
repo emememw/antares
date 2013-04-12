@@ -56,7 +56,9 @@ public class Player extends Entity {
 		} else {
 			actionEventReady2 = true;
 		}
-
+		if(Gdx.input.isKeyPressed(Keys.M)) {
+			GlobalConfig.getInstance().setShowMap(!GlobalConfig.getInstance().isShowMap());
+		}
 		
 
 	}

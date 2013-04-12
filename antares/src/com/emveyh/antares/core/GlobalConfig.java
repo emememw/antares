@@ -14,6 +14,8 @@ public class GlobalConfig {
 	private int viewWidth;
 	private int viewHeight;
 	
+	private boolean showMap;
+	
 	private GameState currentGameState;
 
 	public int getViewWidth() {
@@ -38,6 +40,14 @@ public class GlobalConfig {
 
 	public void setCurrentGameState(GameState currentGameState) {
 		this.currentGameState = currentGameState;
+	}
+
+	public boolean isShowMap() {
+		return showMap;
+	}
+
+	public void setShowMap(boolean showMap) {
+		this.showMap = showMap;
 	}
 	
 	

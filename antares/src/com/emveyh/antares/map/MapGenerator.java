@@ -1,89 +1,66 @@
 package com.emveyh.antares.map;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import com.emveyh.antares.utils.Coord;
+import com.emveyh.antares.utils.Direction;
 
 public class MapGenerator {
 
 	public static void main(String[] args) {
-		new MapGenerator().generateSingleGameMap();
+		MapGenerator.generateSingleGameMap();
 	}
 
 	private static void createRiver(GameMap map) {
 
 		Random random = new Random();
 
-		// pick random beach tile
+		// pick random land tile
 		List<Coord> beachTiles = new LinkedList<Coord>();
-		List<Coord> waterTiles = new LinkedList<Coord>();
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[x].length; y++) {
 				if (map.getTiles()[x][y] == Tile.GRASS) {
 					beachTiles.add(new Coord(x, y));
-				} else if (map.getTiles()[x][y] == Tile.WATER) {
-					waterTiles.add(new Coord(x, y));
 				}
 
 			}
 		}
 
 		Coord startPoint = beachTiles.get(random.nextInt(beachTiles.size()));
-		Coord endPoint = null;
-
-		Collections.shuffle(waterTiles);
-
-		for (Coord coord : waterTiles) {
-			int difX = coord.getX() - startPoint.getX();
-			if (difX < 0) {
-				difX *= -1;
-			}
-
-			int difY = coord.getY() - startPoint.getY();
-			if (difY < 0) {
-				difY *= -1;
-			}
-
-			if (difX > 30 || difY > 30) {
-				endPoint = new Coord(difX, difY);
-			}
-		}
+	
 
 		int currentX = startPoint.getX();
 		int currentY = startPoint.getY();
 
-		int maxLoop = random.nextInt(map.getTiles().length) * 3;
-		int curLoop = 0;
-		while ((currentX != endPoint.getX() || currentY != endPoint.getY()) && curLoop < maxLoop) {
-			int direction = random.nextInt(4);
-			int x = currentX;
-			int y = currentY;
-
-			if (direction == 0) {
-				x++;
-			} else if (direction == 1) {
-				x--;
-			} else if (direction == 2) {
-				y++;
-			} else if (direction == 3) {
-				y--;
+		Direction basicDirection = Direction.values()[random.nextInt(Direction.values().length)];
+		
+		int differentDirectionChance = 60;
+		
+		while(map.getTiles()[currentX][currentY] != Tile.WATER) {
+			
+			Direction currentDirection = basicDirection;
+			if(random.nextInt(100) < differentDirectionChance) {
+				currentDirection = Direction.values()[random.nextInt(Direction.values().length)];
 			}
-
-			if (x >= 0 && x < map.getTiles().length && y >= 0 && y < map.getTiles()[x].length) {
-				map.getTiles()[x][y] = Tile.WATER;
-				currentX = x;
-				currentY = y;
+			
+			if(currentDirection == Direction.RIGHT) {
+				currentX++;
+			} else if(currentDirection == Direction.LEFT) {
+				currentX--;
+			} else if(currentDirection == Direction.DOWN) {
+				currentY--;
+			} else if(currentDirection == Direction.UP) {
+				currentY++;
 			}
-
-			if (random.nextInt(100) < 20) {
+			
+			if(currentX < 0 || currentX > map.getTiles().length-1 || currentY < 0 || currentY > map.getTiles()[0].length-1 ) {
 				break;
+			} else	if(map.getTiles()[currentX][ currentY] != Tile.WATER) {
+				map.getTiles()[currentX][currentY] = Tile.RIVER;
 			}
-
-			curLoop++;
-
+			
 		}
 
 	}
@@ -141,7 +118,7 @@ public class MapGenerator {
 
 		Random random = new Random();
 
-		int worldScale = 8;
+		int worldScale = 9;
 		int worldDimension = (int) Math.pow(2, worldScale) + 1;
 
 		System.out.println("dimension: " + worldDimension);
@@ -158,8 +135,8 @@ public class MapGenerator {
 		world.getTiles()[middleX][middleY] = Tile.GRASS;
 
 		double chance = 100;
-		double chanceLossPerStep = Double.valueOf(worldDimension * 0.02).intValue();
-		double lossScale = 0.085;
+		double chanceLossPerStep = Double.valueOf(worldDimension * 0.013).intValue();
+		double lossScale = 0.045;
 		// down
 		double step = 0;
 		for (int y = middleY + 1; y < world.getTiles()[0].length; y++) {
@@ -215,6 +192,18 @@ public class MapGenerator {
 
 		System.out.println("==============================");
 
+		smothGameMap(world);
+
+		for (int i = 0; i < random.nextInt(30)+30; i++) {
+			createRiver(world);
+		}
+		
+
+		printWorld(world);
+		return world;
+	}
+
+	private static void smothGameMap(GameMap world) {
 		int smoothTime = 3;
 		while (smoothTime > 0) {
 			for (int x = 0; x < world.getTiles().length; x++) {
@@ -248,48 +237,6 @@ public class MapGenerator {
 			}
 			smoothTime--;
 		}
-
-		for (int i = 0; i < 10; i++) {
-			createRiver(world);
-		}
-
-		//
-		smoothTime = 3;
-		while (smoothTime > 0) {
-			for (int x = 0; x < world.getTiles().length; x++) {
-				for (int y = 0; y < world.getTiles()[x].length; y++) {
-					int connectedLand = 0;
-					int waterNeighbours = 0;
-					List<Coord> neighbourTiles = getNeighbourTiles(world, x, y, false);
-					for (Coord coord : neighbourTiles) {
-						if (world.getTiles()[coord.getX()][coord.getY()] != Tile.WATER) {
-							connectedLand++;
-						}
-					}
-					neighbourTiles = getNeighbourTiles(world, x, y, true);
-					for (Coord coord : neighbourTiles) {
-						if (world.getTiles()[coord.getX()][coord.getY()] == Tile.WATER) {
-							waterNeighbours++;
-						}
-					}
-
-					if (connectedLand >= 5) {
-						world.getTiles()[x][y] = Tile.GRASS;
-					} else if (connectedLand <= 3) {
-						world.getTiles()[x][y] = Tile.WATER;
-					}
-
-					if (world.getTiles()[x][y] == Tile.GRASS && waterNeighbours > 0) {
-						world.getTiles()[x][y] = Tile.SAND;
-					}
-
-				}
-			}
-			smoothTime--;
-		}
-
-		printWorld(world);
-		return world;
 	}
 
 }
