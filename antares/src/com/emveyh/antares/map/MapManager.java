@@ -22,7 +22,7 @@ public class MapManager {
 		this.world = MapGenerator.generateGameMap();
 		outer: for(int x = 0; x < world.getTiles().length; x++) {
 			for(int y = 0; y < world.getTiles()[x].length; y++) {
-				if(world.getTiles()[x][y] == Tile.GRASS) {
+				if(world.getTiles()[x][y] == Tile.RIVER) {
 					currentWorldPosition = new Coord(x,y);
 					EntityManager.getInstance().getPlayer().setPosition(x*GlobalConfig.FIXED_TILESIZE, y*GlobalConfig.FIXED_TILESIZE);
 					break outer;

@@ -7,6 +7,7 @@ import com.emveyh.antares.core.TextureManager;
 public class GameObject extends Sprite {
 	
 	protected boolean accessible;
+	private GameObjectType gameObjectType;
 	
 	public GameObject(GameObjectType gameObjectType, float x, float y) {
 		this.setRegion(TextureManager.getInstance().getSprites()[gameObjectType.getSpritesIndexX()][gameObjectType.getSpritesIndexY()]);
@@ -14,6 +15,7 @@ public class GameObject extends Sprite {
 		this.setY(y);
 		this.setSize(GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE);
 		this.accessible = gameObjectType.isAccessible();
+		this.gameObjectType = gameObjectType;
 	}
 
 	public boolean isAccessible() {
@@ -22,6 +24,10 @@ public class GameObject extends Sprite {
 
 	public void setAccessible(boolean accessible) {
 		this.accessible = accessible;
+	}
+
+	public GameObjectType getGameObjectType() {
+		return gameObjectType;
 	}
 	
 	
