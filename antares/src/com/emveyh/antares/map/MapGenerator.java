@@ -17,7 +17,8 @@ public class MapGenerator {
 		MapGenerator.generateGameMap();
 	}
 	
-	private static void plantTrees(GameMap map, int amount) {
+	private static void plantVegetation(GameMap map, int amount) {
+		Random random = new Random();
 		List<Coord> landTiles = new LinkedList<Coord>();
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[x].length; y++) {
@@ -28,16 +29,26 @@ public class MapGenerator {
 		}
 		
 		for(int i = 0; i < amount; i++) {
-			plantTree(map, landTiles);
+			int chance = random.nextInt(100);
+			if(chance < 10) {
+				plantBerryBush(map, landTiles);
+			} else  {
+				plantTree(map, landTiles);
+			}
+			
 		}
 	}
 	
 	private static void plantTree(GameMap map, List<Coord> landTiles) {
 		Random random = new Random();
-		
-
 		Coord coord = landTiles.get(random.nextInt(landTiles.size()));
 		GameObjectManager.getInstance().addGameObject(coord.getX(),coord.getY(),new GameObject(GameObjectType.TREE, coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE));
+	}
+	
+	private static void plantBerryBush(GameMap map, List<Coord> landTiles) {
+		Random random = new Random();
+		Coord coord = landTiles.get(random.nextInt(landTiles.size()));
+		GameObjectManager.getInstance().addGameObject(coord.getX(),coord.getY(),new GameObject(GameObjectType.BERRY_BUSH, coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE));
 	}
 
 	private static void createRiver(GameMap map) {
@@ -222,8 +233,8 @@ public class MapGenerator {
 			createRiver(world);
 		}
 		
-		System.out.println("plant trees ...");
-		plantTrees(world, random.nextInt(3000)+3000);
+		System.out.println("plant vegetation ...");
+		plantVegetation(world, random.nextInt(5000)+5000);
 
 		System.out.println("... done!");
 		return world;

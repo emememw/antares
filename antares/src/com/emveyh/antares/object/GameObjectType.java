@@ -2,7 +2,8 @@ package com.emveyh.antares.object;
 
 public enum GameObjectType {
 
-	TREE(0,1,false);
+	TREE(0,1,false),
+	BERRY_BUSH(1,1,false);
 	
 	private int spritesIndexX;
 	private int spritesIndexY;
