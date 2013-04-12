@@ -1,7 +1,10 @@
 package com.emveyh.antares.object;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
 public class GameObjectManager {
 
@@ -13,17 +16,21 @@ public class GameObjectManager {
 	
 	private GameObjectManager(){}
 	
-	private Array<GameObject> gameObjects = new Array<GameObject>();
-
-	public Array<GameObject> getGameObjects() {
-		return gameObjects;
-	}
+	private Map<String, GameObject> gameObjects = new HashMap<String, GameObject>();
 	
 	public void render(SpriteBatch batch) {
-		for(GameObject object : gameObjects) {
-			object.draw(batch);
+		for(Entry<String,GameObject> entry : gameObjects.entrySet()) {
+			entry.getValue().draw(batch);
 		}
 	}
 	
+	public void addGameObject(int x, int y, GameObject gameObject) {
+		gameObjects.put(x+""+y, gameObject);
+	}
+	
+	public GameObject getGameObjectAt(int x, int y) {
+		GameObject result = gameObjects.get(x+""+y);
+		return result;
+	}
 	
 }

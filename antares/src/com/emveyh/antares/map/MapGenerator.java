@@ -37,7 +37,7 @@ public class MapGenerator {
 		
 
 		Coord coord = landTiles.get(random.nextInt(landTiles.size()));
-		GameObjectManager.getInstance().getGameObjects().add(new GameObject(GameObjectType.TREE, coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE));
+		GameObjectManager.getInstance().addGameObject(coord.getX(),coord.getY(),new GameObject(GameObjectType.TREE, coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE));
 	}
 
 	private static void createRiver(GameMap map) {
