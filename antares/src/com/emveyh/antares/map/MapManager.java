@@ -19,7 +19,7 @@ public class MapManager {
 	private Coord currentWorldPosition;
 	
 	public void loadWorld() {
-		this.world = MapGenerator.generateSingleGameMap();
+		this.world = MapGenerator.generateGameMap();
 		outer: for(int x = 0; x < world.getTiles().length; x++) {
 			for(int y = 0; y < world.getTiles()[x].length; y++) {
 				if(world.getTiles()[x][y] == Tile.GRASS) {

@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.emveyh.antares.core.GlobalConfig;
 import com.emveyh.antares.map.MapManager;
 import com.emveyh.antares.map.Tile;
+import com.emveyh.antares.object.GameObject;
+import com.emveyh.antares.object.GameObjectManager;
+import com.emveyh.antares.object.GameObjectType;
 import com.emveyh.antares.utils.Coord;
 import com.emveyh.antares.utils.Direction;
 
@@ -52,6 +55,7 @@ public class Player extends Entity {
 					MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.WOODEN_FLOOR;
 				}
 				actionEventReady2 = false;
+				GameObjectManager.getInstance().getGameObjects().add(new GameObject(GameObjectType.TREE, this.getX(), this.getY()));
 			}
 		} else {
 			actionEventReady2 = true;

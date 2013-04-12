@@ -40,10 +40,6 @@ public class Entity extends Sprite {
 		this.entityAnimationTextures = entityAnimationTextures;
 	}
 
-	public void render(SpriteBatch batch) {
-		batch.draw(this, this.getX(), this.getY(), this.getWidth(), this.getHeight());
-	}
-
 	public void moveX(boolean negative) {
 		this.moveX(negative ? speed * -1 : speed);
 	}

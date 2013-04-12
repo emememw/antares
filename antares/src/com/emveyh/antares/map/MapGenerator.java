@@ -4,13 +4,40 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import com.emveyh.antares.core.GlobalConfig;
+import com.emveyh.antares.object.GameObject;
+import com.emveyh.antares.object.GameObjectManager;
+import com.emveyh.antares.object.GameObjectType;
 import com.emveyh.antares.utils.Coord;
 import com.emveyh.antares.utils.Direction;
 
 public class MapGenerator {
 
 	public static void main(String[] args) {
-		MapGenerator.generateSingleGameMap();
+		MapGenerator.generateGameMap();
+	}
+	
+	private static void plantTrees(GameMap map, int amount) {
+		List<Coord> landTiles = new LinkedList<Coord>();
+		for (int x = 0; x < map.getTiles().length; x++) {
+			for (int y = 0; y < map.getTiles()[x].length; y++) {
+				if (map.getTiles()[x][y] == Tile.GRASS) {
+					landTiles.add(new Coord(x, y));
+				}
+			}
+		}
+		
+		for(int i = 0; i < amount; i++) {
+			plantTree(map, landTiles);
+		}
+	}
+	
+	private static void plantTree(GameMap map, List<Coord> landTiles) {
+		Random random = new Random();
+		
+
+		Coord coord = landTiles.get(random.nextInt(landTiles.size()));
+		GameObjectManager.getInstance().getGameObjects().add(new GameObject(GameObjectType.TREE, coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE));
 	}
 
 	private static void createRiver(GameMap map) {
@@ -18,17 +45,17 @@ public class MapGenerator {
 		Random random = new Random();
 
 		// pick random land tile
-		List<Coord> beachTiles = new LinkedList<Coord>();
+		List<Coord> landTiles = new LinkedList<Coord>();
 		for (int x = 0; x < map.getTiles().length; x++) {
 			for (int y = 0; y < map.getTiles()[x].length; y++) {
 				if (map.getTiles()[x][y] == Tile.GRASS) {
-					beachTiles.add(new Coord(x, y));
+					landTiles.add(new Coord(x, y));
 				}
 
 			}
 		}
 
-		Coord startPoint = beachTiles.get(random.nextInt(beachTiles.size()));
+		Coord startPoint = landTiles.get(random.nextInt(landTiles.size()));
 	
 
 		int currentX = startPoint.getX();
@@ -101,28 +128,26 @@ public class MapGenerator {
 	}
 
 	public static void printWorld(GameMap world) {
-		System.out.println("====WORLD=====");
 		for (int y = 0; y < world.getTiles()[0].length; y++) {
 			for (int x = 0; x < world.getTiles().length; x++) {
 				if (world.getTiles()[x][y] != Tile.WATER) {
-					System.out.print(" 1 ");
 				} else {
-					System.out.print("   ");
 				}
 			}
-			System.out.println("");
 		}
 	}
 
-	public static GameMap generateSingleGameMap() {
+	public static GameMap generateGameMap() {
 
+		System.out.println("starting world generation ...");
+		
 		Random random = new Random();
 
 		int worldScale = 9;
 		int worldDimension = (int) Math.pow(2, worldScale) + 1;
 
-		System.out.println("dimension: " + worldDimension);
 
+		System.out.println("fill with water ...");
 		GameMap world = new GameMap(worldDimension, worldDimension, null);
 		for (int x = 0; x < world.getTiles().length; x++) {
 			for (int y = 0; y < world.getTiles()[x].length; y++) {
@@ -130,6 +155,7 @@ public class MapGenerator {
 			}
 		}
 
+		System.out.println("place land tiles ...");
 		int middleX = (worldDimension) / 2;
 		int middleY = (worldDimension) / 2;
 		world.getTiles()[middleX][middleY] = Tile.GRASS;
@@ -143,7 +169,6 @@ public class MapGenerator {
 			for (int xpos = middleX - (y - middleY); xpos <= middleX + (y - middleY); xpos++) {
 
 				double currentChance = chance - chanceLossPerStep * step * lossScale;
-				System.out.println(currentChance);
 				if (random.nextDouble() * 100 < currentChance) {
 					world.getTiles()[xpos][y] = Tile.GRASS;
 				}
@@ -156,7 +181,6 @@ public class MapGenerator {
 		for (int y = middleY - 1; y >= 0; y--) {
 			for (int xpos = middleX - (middleY - y); xpos <= middleX + (middleY - y); xpos++) {
 				double currentChance = chance - chanceLossPerStep * step * lossScale;
-				System.out.println(currentChance);
 				if (random.nextDouble() * 100 < currentChance) {
 					world.getTiles()[xpos][y] = Tile.GRASS;
 				}
@@ -190,16 +214,18 @@ public class MapGenerator {
 			step++;
 		}
 
-		System.out.println("==============================");
-
+		System.out.println("smooth island ...");
 		smothGameMap(world);
 
+		System.out.println("create rivers ...");
 		for (int i = 0; i < random.nextInt(30)+30; i++) {
 			createRiver(world);
 		}
 		
+		System.out.println("plant trees ...");
+		plantTrees(world, random.nextInt(3000)+3000);
 
-		printWorld(world);
+		System.out.println("... done!");
 		return world;
 	}
 

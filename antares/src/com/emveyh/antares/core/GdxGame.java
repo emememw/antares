@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.emveyh.antares.entity.EntityManager;
 import com.emveyh.antares.input.InputManager;
 import com.emveyh.antares.map.MapManager;
+import com.emveyh.antares.object.GameObjectManager;
 import com.emveyh.antares.ui.UIManager;
 
 public class GdxGame implements ApplicationListener {
@@ -47,7 +48,8 @@ public class GdxGame implements ApplicationListener {
 		batch.begin();
 		
 		MapManager.getInstance().getCurrentMap().render(batch);
-		EntityManager.getInstance().getPlayer().render(batch);
+		GameObjectManager.getInstance().render(batch);
+		EntityManager.getInstance().render(batch);
 		UIManager.getInstance().render(batch);
 		
 		batch.end();

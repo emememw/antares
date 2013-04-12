@@ -1,5 +1,6 @@
 package com.emveyh.antares.entity;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.emveyh.antares.core.TextureManager;
 
 public class EntityManager {
@@ -29,6 +30,10 @@ public class EntityManager {
 
 	public void tick() {
 		player.tick();
+	}
+	
+	public void render(SpriteBatch batch) {
+		player.draw(batch);
 	}
 
 }
