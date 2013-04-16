@@ -1,6 +1,8 @@
 package com.emveyh.antares.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.emveyh.antares.core.GameState;
+import com.emveyh.antares.core.GlobalConfig;
 import com.emveyh.antares.core.TextureManager;
 
 public class EntityManager {
@@ -29,11 +31,19 @@ public class EntityManager {
 	}
 
 	public void tick() {
-		player.tick();
+		if(GlobalConfig.getInstance().getCurrentGameState() == GameState.NORMAL) {
+			player.tick();
+		}
+		if(GlobalConfig.getInstance().getCurrentGameState() == GameState.BUILD_MODE) {
+			Cursor.getInstance().tick();
+		}
 	}
 	
 	public void render(SpriteBatch batch) {
 		player.draw(batch);
+		if(GlobalConfig.getInstance().getCurrentGameState() == GameState.BUILD_MODE) {
+			Cursor.getInstance().render(batch);
+		}
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.emveyh.antares.entity;
 
 import com.badlogic.gdx.Input.Keys;
+import com.emveyh.antares.core.CameraManager;
+import com.emveyh.antares.core.GameState;
 import com.emveyh.antares.core.GlobalConfig;
 import com.emveyh.antares.input.InputManager;
 import com.emveyh.antares.map.MapManager;
@@ -28,25 +30,7 @@ public class Player extends Entity {
 			EntityManager.getInstance().getPlayer().moveY(false);
 		}
 
-		if (InputManager.getInstance().isKeyPressed(Keys.X)) {
-			Coord coord = this.getTileNextToEntity();
-			if (MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] == Tile.STONE) {
-				MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.GRASS;
-			} else {
-				MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.STONE;
-			}
-			InputManager.getInstance().resetKey(Keys.X);
-		}
-
-		if (InputManager.getInstance().isKeyPressed(Keys.Y)) {
-			Coord coord = this.getTileNextToEntity();
-			if (MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] == Tile.WOODEN_FLOOR) {
-				MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.GRASS;
-			} else {
-				MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()] = Tile.WOODEN_FLOOR;
-			}
-			InputManager.getInstance().resetKey(Keys.Y);
-		}
+		
 		if (InputManager.getInstance().isKeyPressed(Keys.M)) {
 			GlobalConfig.getInstance().setShowMap(!GlobalConfig.getInstance().isShowMap());
 			InputManager.getInstance().resetKey(Keys.M);
@@ -57,6 +41,12 @@ public class Player extends Entity {
 				GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY()).hit();
 			}
 			InputManager.getInstance().resetKey(Keys.SPACE);
+		}
+		if(InputManager.getInstance().isKeyPressed(Keys.B)) {
+			GlobalConfig.getInstance().setCurrentGameState(GameState.BUILD_MODE);
+			Cursor.getInstance().setTileX((int)this.getX()/GlobalConfig.FIXED_TILESIZE);
+			Cursor.getInstance().setTileY((int)this.getY()/GlobalConfig.FIXED_TILESIZE);
+			InputManager.getInstance().resetKey(Keys.B);
 		}
 
 	}

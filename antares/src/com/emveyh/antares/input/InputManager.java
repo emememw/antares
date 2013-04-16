@@ -36,7 +36,9 @@ public class InputManager implements InputProcessor {
 	}
 	
 	public void resetKey(int keycode) {
-		inputMap.put(keycode, InputState.RESETED);
+		if(inputMap.get(keycode) == InputState.PRESSED) {
+			inputMap.put(keycode, InputState.RESETED);
+		}
 	}
 
 	@Override
