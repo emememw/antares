@@ -5,6 +5,7 @@ import com.emveyh.antares.core.GlobalConfig;
 import com.emveyh.antares.input.InputManager;
 import com.emveyh.antares.map.MapManager;
 import com.emveyh.antares.map.Tile;
+import com.emveyh.antares.object.DestructableGameObject;
 import com.emveyh.antares.object.GameObjectManager;
 import com.emveyh.antares.utils.Coord;
 
@@ -53,8 +54,9 @@ public class Player extends Entity {
 		if(InputManager.getInstance().isKeyPressed(Keys.SPACE)) {
 			Coord coord = this.getGameObjectCoordInFrontOfEntity();
 			if(coord != null) {
-				GameObjectManager.getInstance().removeGameObjectAt(coord.getX(), coord.getY());
+				GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY()).hit();
 			}
+			InputManager.getInstance().resetKey(Keys.SPACE);
 		}
 
 	}

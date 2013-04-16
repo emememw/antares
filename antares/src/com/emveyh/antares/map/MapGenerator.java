@@ -4,10 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.emveyh.antares.core.GlobalConfig;
-import com.emveyh.antares.object.GameObject;
+import com.emveyh.antares.object.BerryBush;
 import com.emveyh.antares.object.GameObjectManager;
-import com.emveyh.antares.object.GameObjectType;
+import com.emveyh.antares.object.Tree;
 import com.emveyh.antares.utils.Coord;
 import com.emveyh.antares.utils.Direction;
 
@@ -42,13 +41,13 @@ public class MapGenerator {
 	private static void plantTree(GameMap map, List<Coord> landTiles) {
 		Random random = new Random();
 		Coord coord = landTiles.get(random.nextInt(landTiles.size()));
-		GameObjectManager.getInstance().addGameObject(coord.getX(),coord.getY(),new GameObject(GameObjectType.TREE, coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE));
+		GameObjectManager.getInstance().addGameObject(new Tree(coord.getX(), coord.getY()));
 	}
 	
 	private static void plantBerryBush(GameMap map, List<Coord> landTiles) {
 		Random random = new Random();
 		Coord coord = landTiles.get(random.nextInt(landTiles.size()));
-		GameObjectManager.getInstance().addGameObject(coord.getX(),coord.getY(),new GameObject(GameObjectType.BERRY_BUSH, coord.getX()*GlobalConfig.FIXED_TILESIZE, coord.getY()*GlobalConfig.FIXED_TILESIZE));
+		GameObjectManager.getInstance().addGameObject(new BerryBush(coord.getX(), coord.getY()));
 	}
 
 	private static void createRiver(GameMap map) {
