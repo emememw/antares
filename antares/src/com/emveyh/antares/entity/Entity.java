@@ -42,18 +42,20 @@ public class Entity extends Sprite {
 		this.entityAnimationTextures = entityAnimationTextures;
 	}
 
-	public void moveX(boolean negative) {
-		this.moveX(negative ? speed * -1 : speed);
+	public CollisionResult moveX(boolean negative) {
+		return this.moveX(negative ? speed * -1 : speed);
 	}
 
-	public void moveY(boolean negative) {
-		this.moveY(negative ? speed * -1 : speed);
+	public CollisionResult moveY(boolean negative) {
+		return this.moveY(negative ? speed * -1 : speed);
 	}
 
-	public void moveX(float velocity) {
+	public CollisionResult moveX(float velocity) {
+
 		float newX = this.getX() + velocity * Gdx.graphics.getDeltaTime();
 		float newY = this.getY();
-		if (isValidPosition(newX, newY)) {
+		CollisionResult collisionResult = checkCollision(newX, newY);
+		if (collisionResult == CollisionResult.NO_COLLISION) {
 			this.setX(newX);
 			walking = true;
 		}
@@ -62,12 +64,14 @@ public class Entity extends Sprite {
 		} else {
 			this.currentDirection = Direction.LEFT;
 		}
+		return collisionResult;
 	}
 
-	public void moveY(float velocity) {
+	public CollisionResult moveY(float velocity) {
 		float newX = this.getX();
 		float newY = this.getY() + velocity * Gdx.graphics.getDeltaTime();
-		if (isValidPosition(newX, newY)) {
+		CollisionResult collisionResult = checkCollision(newX, newY);
+		if (collisionResult == CollisionResult.NO_COLLISION) {
 			this.setY(newY);
 			walking = true;
 		}
@@ -76,15 +80,11 @@ public class Entity extends Sprite {
 		} else {
 			this.currentDirection = Direction.DOWN;
 		}
+		return collisionResult;
 	}
 
-	public boolean isValidPosition(float newX, float newY) {
-		boolean result = false;
-		if (isCollidingWithTile(newX, newY) == CollisionResult.NO_COLLISION) {
-			result = true;
-		}
-
-		return result;
+	public CollisionResult checkCollision(float newX, float newY) {
+		return isCollidingWithTile(newX, newY);
 	}
 
 	public String toString() {
@@ -232,6 +232,42 @@ public class Entity extends Sprite {
 	public void setCurrentTexture(TextureRegion texture) {
 		this.currentTexture = texture;
 		this.setRegion(texture);
+	}
+
+	public Coord getGameObjectCoordInFrontOfEntity() {
+		Coord result = null;
+
+		if (this.currentDirection == Direction.RIGHT) {
+			if (this.checkCollision(this.getX()+this.getWidth()+1, this.getY()) == CollisionResult.COLLIDING_OBJECT) {
+				Coord coord = this.getTileNextToEntity();
+				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+					result = coord;
+				}
+			}
+		} else if (this.currentDirection == Direction.LEFT) {
+			if (this.checkCollision(this.getX()-4, this.getY()) == CollisionResult.COLLIDING_OBJECT) {
+				Coord coord = this.getTileNextToEntity();
+				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+					result = coord;
+				}
+			}
+		} else if (this.currentDirection == Direction.UP) {
+			if (this.checkCollision(this.getX(), this.getY()+this.getHeight()+1) == CollisionResult.COLLIDING_OBJECT) {
+				Coord coord = this.getTileNextToEntity();
+				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+					result = coord;
+				}
+			}
+		} else if (this.currentDirection == Direction.DOWN) {
+			if (this.checkCollision(this.getX(), this.getY()-4) == CollisionResult.COLLIDING_OBJECT) {
+				Coord coord = this.getTileNextToEntity();
+				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+					result = coord;
+				}
+			}
+		}
+		return result;
+
 	}
 
 }

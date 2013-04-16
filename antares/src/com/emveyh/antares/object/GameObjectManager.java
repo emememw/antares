@@ -33,4 +33,8 @@ public class GameObjectManager {
 		return result;
 	}
 	
+	public void removeGameObjectAt(int x, int y) {
+		gameObjects.remove(x+":"+y);
+	}
+	
 }
