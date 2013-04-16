@@ -8,6 +8,7 @@ import com.emveyh.antares.entity.EntityManager;
 import com.emveyh.antares.input.InputManager;
 import com.emveyh.antares.map.MapManager;
 import com.emveyh.antares.object.GameObjectManager;
+import com.emveyh.antares.screen.ScreenManager;
 import com.emveyh.antares.ui.UIManager;
 
 public class GdxGame implements ApplicationListener {
@@ -18,7 +19,9 @@ public class GdxGame implements ApplicationListener {
 		int viewWidth = 800;
 		int viewHeight = 480;
 		
+		
 		TextureManager.getInstance().init();
+		ScreenManager.getInstance().initialize();
 		 Gdx.input.setInputProcessor(InputManager.getInstance());
 		
 		CameraManager.getInstance().initialize(viewWidth, viewHeight);
@@ -48,10 +51,7 @@ public class GdxGame implements ApplicationListener {
 		batch.setProjectionMatrix(CameraManager.getInstance().getCamera().combined);
 		batch.begin();
 		
-		MapManager.getInstance().getCurrentMap().render(batch);
-		GameObjectManager.getInstance().render(batch);
-		EntityManager.getInstance().render(batch);
-		UIManager.getInstance().render(batch);
+		ScreenManager.getInstance().render(batch);
 		
 		batch.end();
 		
