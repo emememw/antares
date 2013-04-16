@@ -1,12 +1,11 @@
 package com.emveyh.antares.input;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.emveyh.antares.core.GameState;
-import com.emveyh.antares.core.GlobalConfig;
-import com.emveyh.antares.entity.EntityManager;
+import java.util.HashMap;
+import java.util.Map;
 
-public class InputManager {
+import com.badlogic.gdx.InputProcessor;
+
+public class InputManager implements InputProcessor {
 	private static final InputManager INSTANCE = new InputManager();
 	
 	public static InputManager getInstance() {
@@ -14,30 +13,66 @@ public class InputManager {
 	}
 	
 	private InputManager() {}
-	
-	public void tick() {
-		
-		if(Gdx.input.justTouched()) {
-			onTouch();
-		}
-		onKeyPressed();
-		
-	}
-	
-	private void onTouch() {
-	}
-	
-	private void onKeyPressed() {
-		if(GlobalConfig.getInstance().getCurrentGameState() == GameState.NORMAL) {
-			checkPlayerMovement();
-		}
+
+	private Map<Integer, InputState> inputMap = new HashMap<Integer, InputState>();
+
+	@Override
+	public boolean keyDown(int keycode) {
+		InputState inputState = inputMap.get(keycode);
+		if(inputState == null || inputState != InputState.RESETED) {
+			inputMap.put(keycode, InputState.PRESSED);
+		} 
+		return false;
 	}
 
-	/*
-	 * @TODO: I think that the InputManager should not handle the player movement
-	 */
-	private void checkPlayerMovement() {
-		
+	@Override
+	public boolean keyUp(int keycode) {
+		inputMap.put(keycode, InputState.RELEASED);
+		return false;
+	}
+	
+	public boolean isKeyPressed(int keycode) {
+		return inputMap.get(keycode) == InputState.PRESSED ? true : false;
+	}
+	
+	public void resetKey(int keycode) {
+		inputMap.put(keycode, InputState.RESETED);
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

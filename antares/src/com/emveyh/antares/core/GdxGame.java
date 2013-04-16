@@ -19,6 +19,7 @@ public class GdxGame implements ApplicationListener {
 		int viewHeight = 480;
 		
 		TextureManager.getInstance().init();
+		 Gdx.input.setInputProcessor(InputManager.getInstance());
 		
 		CameraManager.getInstance().initialize(viewWidth, viewHeight);
 		CameraManager.getInstance().setSpotlightEntity(EntityManager.getInstance().getPlayer());
@@ -54,7 +55,6 @@ public class GdxGame implements ApplicationListener {
 		
 		batch.end();
 		
-		InputManager.getInstance().tick();
 		EntityManager.getInstance().tick();
 		//System.out.println(Gdx.graphics.getFramesPerSecond());
 		
