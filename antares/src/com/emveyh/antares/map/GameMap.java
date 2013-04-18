@@ -12,14 +12,15 @@ public class GameMap {
 	private int width;
 	private int height;
 	private Tile[][] tiles;
-	
 	private WorldTileType worldTileType;
+	private Tile[][] removeableTiles;
 
 	public GameMap(int width, int height, WorldTileType worldTileType) {
 		this.width = width;
 		this.height = height;
 		this.worldTileType = worldTileType;
 		tiles = new Tile[width][height];
+		removeableTiles = new Tile[width][height];
 	}
 
 	public int getWidth() {
@@ -37,7 +38,11 @@ public class GameMap {
 	public void render(SpriteBatch batch) {
 		for (int x = 0; x < this.width; x++) {
 			for (int y = 0; y < this.height; y++) {
-				tiles[x][y].render(batch, x * GlobalConfig.FIXED_TILESIZE, y * GlobalConfig.FIXED_TILESIZE);
+				if(removeableTiles[x][y] != null) {
+					removeableTiles[x][y].render(batch, x * GlobalConfig.FIXED_TILESIZE, y * GlobalConfig.FIXED_TILESIZE);
+				} else {
+					tiles[x][y].render(batch, x * GlobalConfig.FIXED_TILESIZE, y * GlobalConfig.FIXED_TILESIZE);
+				}
 			}
 		}
 	}
@@ -61,6 +66,13 @@ public class GameMap {
 	public void setWorldTileType(WorldTileType worldTileType) {
 		this.worldTileType = worldTileType;
 	}
+
+	public Tile[][] getRemoveableTiles() {
+		return removeableTiles;
+	}
+
+	
+	
 	
 	
 

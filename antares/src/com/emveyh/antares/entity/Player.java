@@ -44,8 +44,8 @@ public class Player extends Entity {
 		}
 		if(InputManager.getInstance().isKeyPressed(Keys.B)) {
 			GlobalConfig.getInstance().setCurrentGameState(GameState.BUILD_MODE);
-			Cursor.getInstance().setTileX((int)this.getX()/GlobalConfig.FIXED_TILESIZE);
-			Cursor.getInstance().setTileY((int)this.getY()/GlobalConfig.FIXED_TILESIZE);
+			BuildingCursor.getInstance().setTileX((int)this.getX()/GlobalConfig.FIXED_TILESIZE);
+			BuildingCursor.getInstance().setTileY((int)this.getY()/GlobalConfig.FIXED_TILESIZE);
 			InputManager.getInstance().resetKey(Keys.B);
 		}
 

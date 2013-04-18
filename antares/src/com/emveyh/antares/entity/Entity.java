@@ -156,7 +156,9 @@ public class Entity extends Sprite {
 
 				if (new Rectangle(xToCheck + 4, yToCheck + 4, this.getWidth() - 8, this.getHeight() - 8).overlaps(new Rectangle(coord.getX()
 						* GlobalConfig.FIXED_TILESIZE, coord.getY() * GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE, GlobalConfig.FIXED_TILESIZE))) {
-					if (!MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()].isAccessible()) {
+					if (!MapManager.getInstance().getCurrentMap().getTiles()[coord.getX()][coord.getY()].isAccessible()
+							|| (MapManager.getInstance().getCurrentMap().getRemoveableTiles()[coord.getX()][coord.getY()] != null && !MapManager.getInstance()
+									.getCurrentMap().getRemoveableTiles()[coord.getX()][coord.getY()].isAccessible())) {
 						result = CollisionResult.COLLIDING_TILE;
 						break;
 					} else {
@@ -238,30 +240,30 @@ public class Entity extends Sprite {
 		Coord result = null;
 
 		if (this.currentDirection == Direction.RIGHT) {
-			if (this.checkCollision(this.getX()+this.getWidth()+1, this.getY()) == CollisionResult.COLLIDING_OBJECT) {
+			if (this.checkCollision(this.getX() + this.getWidth() + 1, this.getY()) == CollisionResult.COLLIDING_OBJECT) {
 				Coord coord = this.getTileNextToEntity();
-				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+				if (GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY()) != null) {
 					result = coord;
 				}
 			}
 		} else if (this.currentDirection == Direction.LEFT) {
-			if (this.checkCollision(this.getX()-4, this.getY()) == CollisionResult.COLLIDING_OBJECT) {
+			if (this.checkCollision(this.getX() - 4, this.getY()) == CollisionResult.COLLIDING_OBJECT) {
 				Coord coord = this.getTileNextToEntity();
-				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+				if (GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY()) != null) {
 					result = coord;
 				}
 			}
 		} else if (this.currentDirection == Direction.UP) {
-			if (this.checkCollision(this.getX(), this.getY()+this.getHeight()+1) == CollisionResult.COLLIDING_OBJECT) {
+			if (this.checkCollision(this.getX(), this.getY() + this.getHeight() + 1) == CollisionResult.COLLIDING_OBJECT) {
 				Coord coord = this.getTileNextToEntity();
-				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+				if (GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY()) != null) {
 					result = coord;
 				}
 			}
 		} else if (this.currentDirection == Direction.DOWN) {
-			if (this.checkCollision(this.getX(), this.getY()-4) == CollisionResult.COLLIDING_OBJECT) {
+			if (this.checkCollision(this.getX(), this.getY() - 4) == CollisionResult.COLLIDING_OBJECT) {
 				Coord coord = this.getTileNextToEntity();
-				if(GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY())!=null) {
+				if (GameObjectManager.getInstance().getGameObjectAt(coord.getX(), coord.getY()) != null) {
 					result = coord;
 				}
 			}

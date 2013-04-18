@@ -35,14 +35,14 @@ public class EntityManager {
 			player.tick();
 		}
 		if(GlobalConfig.getInstance().getCurrentGameState() == GameState.BUILD_MODE) {
-			Cursor.getInstance().tick();
+			BuildingCursor.getInstance().tick();
 		}
 	}
 	
 	public void render(SpriteBatch batch) {
 		player.draw(batch);
 		if(GlobalConfig.getInstance().getCurrentGameState() == GameState.BUILD_MODE) {
-			Cursor.getInstance().render(batch);
+			BuildingCursor.getInstance().render(batch);
 		}
 	}
 
