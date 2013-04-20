@@ -54,6 +54,7 @@ public class GdxGame implements ApplicationListener {
 		
 		ScreenManager.getInstance().render(batch);
 		
+		FontManager.getInstance().getFont().setScale(0.5f);
 		FontManager.getInstance().getFont().draw(batch, "fps: "+Gdx.graphics.getFramesPerSecond(), CameraManager.getInstance().translateX(10), CameraManager.getInstance().translateY(460));
 		
 		batch.end();
