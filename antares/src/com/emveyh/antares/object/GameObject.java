@@ -58,6 +58,4 @@ public abstract class GameObject extends Sprite {
 		this.onHit();
 	}
 	
-	
-	
 }

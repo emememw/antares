@@ -58,5 +58,13 @@ public class CameraManager {
 	public OrthographicCamera getCamera() {
 		return camera;
 	}
+	
+	public float translateX(float x) {
+		return camera.position.x-camera.viewportWidth/2+x;
+	}
+	
+	public float translateY(float y) {
+		return camera.position.y-camera.viewportHeight/2+y;
+	}
 
 }

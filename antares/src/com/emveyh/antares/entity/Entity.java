@@ -269,7 +269,6 @@ public class Entity extends Sprite {
 			}
 		}
 		return result;
-
 	}
 
 }
